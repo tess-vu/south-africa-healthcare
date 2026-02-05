@@ -66,7 +66,7 @@ As an idea, it could be helpful to calculate a normalized `nhi_funding_score` (0
 -   **0.5 (At Risk):** Registered with SAPC + Independent + Located in "Non-Wealthy" zone (potential infrastructure gaps).
 -   **0.0 (Excluded):** Unregistered/Informal + Residential Zoning + No SAPC ID.
 
-## 5. Routing & Accessibility Strategy
+## 5. Routing & Accessibility
 
 *Calculating "Distance".*
 
