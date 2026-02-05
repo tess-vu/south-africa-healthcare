@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: sentence
----
-
 # Geography of Healthcare Access in South Africa
 
 ## Potential Project Deliverables
