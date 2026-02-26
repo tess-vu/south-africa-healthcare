@@ -130,8 +130,8 @@ The catalyst of this project starts with a new healthcare policy passed by the S
 The precursor  of this "pharmasocial" imbalancing is the persisant legacy of Apartheid in South Africa that was officially stripped of use in the 1990s. During this relatively short period of time, political power was consolidated to the white minority settlers who were motivated by racism and hierarchy in how they ran the country. Black and native populations were stripped of voting rights, land ownership rights, and the ability to hold office. While segregation is no longer written in the South African constitution, the forced restructuring and seperation that Apartheid instilled has continued to influence infastrucural development, the movement of people, and ideological beliefs to this day. The activists and authors behind this new healthcare policy are interested in expanding pharmaceutical access to the average South African to improve both individual health outcomes and societal public health outcomes. 
 
 The historical significance of South African society is what we will use to inform our analysis and the features we choose for our final products. The problem in it's purest form is an inequitable access to essential medicines asserted by unorthodox geospatial design and privatized healthcare. We must measure and quanitfy accessibility to pharmacies to answer the questions:
-- **1) Who has access to pharmacies from their residence?**
-- **2) To what degree is access  lacking or uneven between people?**
+- **Who has access to pharmacies from their residence?**
+- **2To what degree is access  lacking or uneven between people?**
 
 The following report will detail how we define access to pharmacies, the methodology behind the metrics, the instruments used to deploy the application, and the data that was collected to illustrate the findings. 
 
