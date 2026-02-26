@@ -132,5 +132,6 @@ The precursor  of this "pharmasocial" imbalancing is the persisant legacy of Apa
 The historical significance of South African society is what we will use to inform our analysis and the features we choose for our final products. The problem in it's purest form is an inequitable access to essential medicines asserted by unorthodox geospatial design and privatized healthcare. We must measure and quanitfy accessibility to pharmacies to answer the questions:
 - **1) Who has access to pharmacies from their residence?**
 - **2) To what degree is access  lacking or uneven between people?**
+
 The following report will detail how we define access to pharmacies, the methodology behind the metrics, the instruments used to deploy the application, and the data that was collected to illustrate the findings. 
 
