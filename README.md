@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Understanding the Geography of Healthcare Access in South Africa
 
 ## Evaluating Pharmacy Access in Gauteng and KwaZulu-Natal Under the National Health Insurance Act
