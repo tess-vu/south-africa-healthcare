@@ -23,6 +23,19 @@ Raesetje Sefala (Researcher) \| Nyalleng Moorosi (Research Fellow)
 
 ### The National Health Insurance Act and Healthcare Access
 
+The catalyst of this project starts with a new healthcare policy passed
+by the South African parliament that intends to expand public healthcare
+services, fixing what is currently an imbalanced system. Right now,
+public and private medicine funding is split 50/50 by the government.
+However, the public health system serves over 80% of the population,
+whereas private pharmacies serve about 20% \[CITE\]. The inefficiency of
+this system on the supply and demand of medicines has led to a number of
+social repercussions like lower than average vaccination rates and
+higher than average rates of communicable diseases \[CITE\]. This new
+bill seeks to bridge the gap between private and public disparities by
+making public health insurance acceptable in private pharmacies where
+supply is at a surplus.
+
 The National Health Insurance (NHI) Act of 2024 represents a landmark
 transformation in South African healthcare policy, establishing a public
 fund to subsidize the provision of care and medicines across the nation.
@@ -44,12 +57,27 @@ urbanization, and the enduring legacy of apartheid-era spatial planning.
 
 ### The Legacy of Apartheid Geography
 
-Understanding healthcare access in contemporary South Africa requires
-grappling with the historical geography of apartheid. Crucially, the
-Group Areas Act of 1950 and subsequent legislation systematically
-segregated residential areas by race, concentrating Black African and
-Coloured populations in townships and homelands while reserving
-well-serviced urban areas for white residents. As an intended
+The precursor of this pharmasocial imbalance is the persisent legacy of
+Apartheid in South Africa that was officially stripped of use in the
+1990s. During this relatively short period of time, political power was
+consolidated to the white minority settlers who were motivated by racism
+and hierarchy in how they ran the country. Native Black African
+populations were stripped of voting rights, land ownership rights, and
+the ability to hold office. While segregation is no longer written in
+the South African constitution, the forced restructuring and separation
+that Apartheid instilled has continued to influence infrastructural
+development, the movement of people, and ideological beliefs to this
+day. The activists and authors behind this new healthcare policy are
+interested in expanding pharmaceutical access to the average South
+African to improve both individual health outcomes and societal public
+health outcomes.
+
+With this, understanding healthcare access in contemporary South Africa
+requires grappling with the historical geography of apartheid.
+Crucially, the Group Areas Act of 1950 and subsequent legislation
+systematically segregated residential areas by race, concentrating Black
+African and Coloured populations in townships and homelands while
+reserving well-serviced urban areas for white residents. As an intended
 consequence, this spatial engineering created patterns of uneven
 development that persist today as former township areas often lack the
 commercial infrastructure, including pharmacies, that developed in
@@ -84,7 +112,12 @@ African provinces.
 
 ### Research Questions
 
-This project addresses several interconnected research questions:
+The historical significance of South African society is what will be
+used to inform the analysis and the features chosen for the final
+product. The problem in its purest form is an inequitable access to
+essential medicines asserted by unorthodox geospatial design and
+privatized healthcare. This project measures and quanitfies
+accessibility to pharmacies to answer the questions:
 
 1.  What is the spatial distribution of pharmacies in Gauteng and
     KwaZulu-Natal?
@@ -92,8 +125,10 @@ This project addresses several interconnected research questions:
     populations face access barriers?
 3.  To what extent do patterns of pharmacy access correlate with
     historical geographies of apartheid?
-4.  What actionable insights can inform policy decisions regarding NHI
-    implementation?
+
+The following report will detail how access to pharmacies are defined,
+the methodology behind the metrics, the instruments used to deploy the
+application, and the data that was collected to illustrate the findings.
 
 ------------------------------------------------------------------------
 
@@ -252,8 +287,8 @@ decade-old data.
 
 The project assembles pharmacy location data from multiple sources,
 reflecting the fragmented nature of pharmacy information in South
-Africa. No unified national database of pharmacies exists, requiring
-data integration across heterogenous sources.
+Africa, and unfortunately, no unified national database of pharmacies
+exists, requiring data integration across heterogenous sources.
 
 #### Raw Data Inventory
 
@@ -272,7 +307,7 @@ data integration across heterogenous sources.
 
 The `CITY_PROVINCE_LOOKUP` table was created to help with handling
 province assignment for pharmacy records lacking explicit province
-information. The table contains mappings from city/suburb names to their
+information, which contains mappings from city/suburb names to their
 corresponding PROVINCE, `LOCAL_MUNICIPALITY`, `DISTRICT_MUNICIPALITY`,
 `METROPOLITAN_MUNICIPALITY`, and `CITY` values. This lookup supports the
 multi-stage address matching process described in the data processing
@@ -287,9 +322,6 @@ pipeline.
 
 -   Google Open Buildings data is filtered to the study area geographic
     boundaries for building density and coverage calculations.
-
-<!-- -->
-
 -   The OSMnx pedestrian network is extracted from OpenStreetMap for
     both provinces, enabling network-based walking distance calculations
     to pharmacies as specified by the client.
@@ -321,9 +353,10 @@ pharmacies:
 | Hospital Pharmacies | DAIR Institute (pre-cleaned) | \[TBD\] | 272     |
 
 Public hospitals contain pharmacies that dispense medications to
-patients. Hospital location data from government sources provide
-coordinates for these public pharmacy access points, though they lack
-the detailed address information available for private pharmacies.
+patients, and location data from government sources confirmed by the
+DAIR Institute provides coordinates for these public pharmacy access
+points, though not detailed address information—private pharmacies, on
+the other hand, lack coordinates, but have detailed address information.
 
 **Data Extraction Methods:**
 
@@ -342,7 +375,7 @@ the detailed address information available for private pharmacies.
 | `PHARMACIES_COMBINED` | Unified pharmacy database for Gauteng and KwaZulu-Natal after cleaning, standardization, and province filtering | 5,436 |
 
 The reduction from 9,114 raw private pharmacy records plus 272 hospital
-records (9,386 total) to 5,436 combined records reflects: removal of
+records (9,386 total) to 5,436 combined records reflects the removal of
 pharmacies outside Gauteng and KwaZulu-Natal provinces, deduplication of
 pharmacies appearing across multiple insurance networks, and removal of
 records with insufficient address information for geocoding.
@@ -350,19 +383,20 @@ records with insufficient address information for geocoding.
 **Data Source Limitations:**
 
 -   **Network Participation Bias:** Pharmacies must participate in at
-    least one of the consulted insurance networks to appear in the
-    dataset, meaning independent pharmacies serving primarily uninsured
-    or cash-paying populations may be systematically underrepresented.
+    least one of the insurance networks to appear in the dataset,
+    meaning independent pharmacies serving primarily uninsured or
+    cash-paying populations may be systematically underrepresented.
 -   **Temporal Inconsistency:** Source data spans from January 2024 to
     February 2026 with some sources undated, so pharmacies may have
     opened, closed, or relocated during this period, creating potential
     staleness.
--   **PDF Extraction Errors:** Text extraction from PDF documents may
-    introduce errors or formatting artifacts that could affect geocoding
-    accuracy for example.
+-   **PDF Extraction Errors:** Text extraction from PDF documents using
+    Adobe Acrobat and Snowflake AI tools may introduce errors or
+    formatting artifacts that could affect geocoding accuracy for
+    example.
 -   **Missing Identifiers:** Momentum and Vitality sources lack
-    PRACTICE_NUM identifiers, preventing deduplication for approximately
-    1,500 records.
+    `PRACTICE_NUM` identifiers, preventing deduplication for
+    approximately 1,500 records.
 -   **Hospital Data Gaps:** Hospital records contain coordinates but
     lack street addresses, limiting cross-validation capabilities and
     preventing address-based quality checks.
@@ -448,27 +482,27 @@ schemas that were harmonized:
 -   Vitality data includes `PROVINCE`, `PRACTICE_TYPE`, `PRACTICE_NAME`,
     `ADDRESS`, `SUBURB`, `CITY`, `PHONE` (no `PRACTICE_NUM`)
 
-The combination script standardizes naming conventions (INITCAP
+The combination script standardizes naming conventions (`INITCAP`
 formatting), cleans phone numbers (removing non-numeric characters,
 standardizing to 10-digit format), and concatenates address components
 into complete geocodable addresses.
 
 *Stage 1 Limitations:* Schema harmonization requires assumptions about
 field equivalence (e.g. treating `AREA`, `SUBURB`, and `CITY` as
-interchangeable geographic descriptors). Address concatenation order
-affects geocoding performance and quality may vary by source. INITCAP
+interchangeable geographic descriptors), address concatenation order
+affects geocoding performance and quality may vary by source, `INITCAP`
 formatting may incorrectly case acronyms or non-English names.
 
 **Stage 2: Province Population and Filtering
 (`03_fill_gaps_pharmacies.sql`)**
 
-Many source records lack explicit province information. The
+Many source records lack explicit province information, so the
 `CITY_PROVINCE_LOOKUP` table (n = 290) containing known cities and
-suburbs within Gauteng and KwaZulu-Natal enables inference of province
-from address components. The lookup table maps city/suburb names to
-their corresponding province and municipality hierarchy (local,
-district, or metropolitan municipality). The script applies multiple
-matching strategies:
+suburbs within Gauteng and KwaZulu-Natal allows province inference from
+address components. The lookup table maps city/suburb names to their
+corresponding province and municipality hierarchy (local, district, or
+metropolitan municipality) where the script applies multiple matching
+strategies:
 
 1.  Direct match on `CITY` column
 2.  Match on last comma-separated address segment
@@ -482,19 +516,21 @@ review of dropped records, ensuring that missing suburbs are added
 before final filtering.
 
 *Stage 2 Limitations:* Province inference relies on the completeness of
-the lookup table; missing suburb names result in false negatives
-(legitimate GP/KZN pharmacies incorrectly dropped). The contains-match
-fallback may produce false positives for short city names appearing as
-substrings in unrelated addresses. Municipality hierarchy assignment
-depends on lookup table accuracy, which may not reflect recent boundary
-changes or naming conventions.
+the lookup table, so missing suburb names result in false negatives
+(legitimate GP/KZN pharmacies incorrectly dropped). However, the script
+provides an opportunity for manual human checks, confirmation, and
+potential revision before dropping the observations from the table. The
+contains-match fallback may produce false positives for short city names
+appearing as substrings in unrelated addresses, and municipality
+hierarchy assignment depends on lookup table accuracy, which may not
+reflect recent boundary changes or naming conventions.
 
 **Stage 3: Deduplication (`04_deduplicate_pharmacies.sql`)**
 
 The same pharmacy may appear across multiple insurance provider networks
-with slightly varying information. Conservative deduplication uses
+with slightly varying information, so conservative deduplication uses
 `PRACTICE_NUM` as the authoritative identifier where available,
-aggregating across sources while preserving the most complete address
+aggregating within sources while preserving the most complete address
 information.
 
 Records without `PRACTICE_NUM` (notably Momentum and Vitality sources)
@@ -503,13 +539,15 @@ for post-geocoding spatial deduplication based on coordinate proximity
 and fuzzy matching.
 
 *Stage 3 Limitations:* Identifier-based deduplication assumes
-`PRACTICE_NUM` uniquely identifies a physical location. However, a
-single `PRACTICE_NUM` may be associated with multiple branch locations,
-or different `PRACTICE_NUMs` may represent the same pharmacy under
+`PRACTICE_NUM` uniquely identifies a physical location within their
+respective pharmaceutical company, not across. However, a single
+`PRACTICE_NUM` may be associated with multiple branch locations, or
+different `PRACTICE_NUMs` may represent the same pharmacy under
 different registrations. Records lacking `PRACTICE_NUM` (\~1,500) remain
 as potential duplicates until spatial deduplication, which inflates
-counts prior to final datasets. The longest address filter for selecting
-the record assumes address length correlates with geocoding quality.
+counts prior to final datasets. In addition, the longest address filter
+for selecting the record assumes address length correlates with
+geocoding quality.
 
 **Stage 4: Hospital Integration (`05_add_hospitals.sql`)**
 
@@ -521,19 +559,19 @@ pharmacies.
 
 *Stage 4 Limitations:* Hospital coordinates may represent facility
 points within the campus and not pharmacy-specific locations within
-hospital campuses. It is also possible that not all hospitals contain
+hospital campuses, it is also possible that not all hospitals contain
 pharmacies and some may only have dispensaries with limited hours or
-medication availability. The dataset also may not capture clinic-based
-pharmacies or community health centers that provide pharmaceutical
-services.
+medication availability, and the dataset also may not capture
+clinic-based pharmacies or community health centers that provide
+pharmaceutical services.
 
-### Population Data and Downscaling
+### Population Data and Downscaling \[JILL\]
 
 The 2023 South African Census provides ward-level population counts and
 demographic distributions. Wards, while providing the finest available
 official geography, may be insufficiently granular for local
-accessibility analysis. The project implements multiple approaches to
-estimate population at finer scales.
+accessibility analysis, and as a solution the project implements
+multiple approaches to estimate population at finer scales.
 
 #### Boundary Mismatch and Areal Weighting
 
@@ -551,7 +589,7 @@ estimate population at finer scales.
 
 *\[To be filled\]*
 
-### Geocoding and Coordinate Assignment
+### Geocoding and Coordinate Assignment \[JOEY\]
 
 Address strings require geocoding to assign geographic coordinates. The
 project uses a dual-geocoding strategy for cost-efficiency:
@@ -599,49 +637,67 @@ re-geocoding.
 ### Spatial Accessibility Calculation
 
 Access metrics quantify the relationship between pharmacy locations and
-population distribution. The project implements multiple accessibility
-measures to enable methodological comparison:
+population distribution and the project implements multiple
+accessibility measures to allow for methodological comparison.
 
-**Straight-Line Distance:**
+**Straight-Line Distance:** The simplest approach calculates
+straight-line (Euclidean) distance from population centroids to the
+nearest pharmacy, providing a baseline measure, but may poorly represent
+actual travel distances, particularly in areas with transportation
+barriers.
 
-The simplest approach calculates straight-line (Euclidean) distance from
-population centroids to the nearest pharmacy. This provides a baseline
-measure but may poorly represent actual travel distances, particularly
-in areas with transportation barriers.
+**Network Distance (Driving):** Network distance analysis calculates
+travel distance along the road network, which better represents actual
+travel requirements, but assumes private vehicle access that may not be
+available to all populations. Driving network data can be extracted via
+OSMnx using the "drive" network type.
 
-**Network Distance (Driving):**
+**Network Distance (Walking):** Walking network distance provides
+accessibility measures relevant for populations without vehicle access,
+and this form of accessibility is particularly relevant for
+understanding access barriers for lower-income populations. The OSMnx
+"pedestrian" network type provides calculation of actual walking routes
+from population centroids to pharmacy locations, accounting for the
+street network topology rather than assuming straight-line travel.
 
-Network distance analysis calculates travel distance along the road
-network. This better represents actual travel requirements but assumes
-private vehicle access that may not be available to all population
-segments. Driving network data can be extracted via OSMnx using the
-"drive" network type.
-
-**Network Distance (Walking):**
-
-Walking network distance provides accessibility measures relevant for
-populations without vehicle access. Walking accessibility is
-particularly relevant for understanding access barriers for lower-income
-populations. The OSMnx pedestrian network provides calculation of actual
-walking routes from population centroids to pharmacy locations,
-accounting for the street network topology rather than assuming
-straight-line travel.
-
-**Catchment Area Methods:**
-
-Two-step floating catchment area methods calculate accessibility as
-population-to-pharmacy ratios within defined catchment thresholds. This
-provides a supply-demand perspective rather than purely distance-based
-measures.
+**Catchment Area Methods:** Two-step floating catchment area methods
+calculate accessibility as population-to-pharmacy ratios within defined
+catchment thresholds, providing a supply-demand perspective rather than
+purely distance-based measures.
 
 **Accessibility Calculation Limitations:**
 
--   **Straight-Line Distance:** *\[To be filled\]*
--   **Network Distance (General):** *\[To be filled\]*
--   **Driving Distance:** *\[To be filled\]*
--   **Walking Distance:** *\[To be filled\]*
--   **Catchment Area Methods:** *\[To be filled\]*
--   **Population Centroid Assumption:** *\[To be filled\]*
+-   **Straight-Line Distance:** Assumes unobstructed travel in all
+    directions, fails to account for barriers such as highways, rivers,
+    railway lines, or fenced properties that may substantially increase
+    actual travel distance. Also, urban areas with irregular street
+    grids may have network distances that are much larger than
+    straight-line distances.
+-   **Network Distance (General):** Network quality depends on
+    OpenStreetMap completeness, and informal roads, footpaths, and
+    shortcuts common in township areas may be unmapped, overestimating
+    travel distances for local residents.
+-   **Driving Distance:** Assumes vehicle availability and ignores
+    traffic congestion, parking availability, and fuel costs that affect
+    real-world driving accessibility, and also fails to account for
+    public transit options (minibus taxis) that may provide alternative
+    access patterns.
+-   **Walking Distance:** Standard walking speed assumptions (5 km/h)
+    may not hold for elderly, disabled, or mobility-impaired
+    populations, and also does not account for safety concerns, terrain
+    difficulty, or weather conditions that may discourage walking in
+    certain areas.
+-   **Catchment Area Methods:** Threshold selection (e.g. 1km, 2km
+    catchments) is inherently arbitrary, so different thresholds produce
+    different accessibility patterns, meaning that a binary
+    in/out-of-catchment assignment ignores that a pharmacy 1.01km away
+    provides nearly equivalent access to one 0.99km away.
+-   **Population Centroid Assumption:** All methods calculate distance
+    from areal unit centroids, assuming populations are concentrated at
+    geometric centers, so for irregularly shaped wards or SALs,
+    substantial portions of the population may be far from the centroid,
+    experiencing different accessibility than the centroid-based measure
+    suggests.
 
 ### Environmental Context Variables
 
@@ -680,37 +736,60 @@ where township areas may display distinct environmental signatures.
 **Environmental Variable Limitations:**
 
 -   **Greenery Seasonality:** *\[To be filled\]*
--   **Building Detection Accuracy:** *\[To be filled\]*
--   **Building Dataset Currency:** *\[To be filled\]*
--   **Zonal Statistics Aggregation:** *\[To be filled\]*
+-   **Building Detection Accuracy:** Google Open Buildings detection
+    performance varies by structure type, so informal housing, buildings
+    with unusual roofing materials, and structures under tree canopy may
+    be underdetected. As a result, detection confidence scores should
+    inform uncertainty quantification.
+-   **Building Dataset Currency:** The Open Buildings dataset represents
+    a snapshot at time of imagery acquisition, so rapid development or
+    demolition since acquisition creates a temporal mismatch with
+    current conditions.
+-   **Zonal Statistics Aggregation:** Summarizing raster values to
+    ward/SAL boundaries obscures within-unit variation, meaning large
+    wards with heterogeneous land cover will show averaged values that
+    may not represent any actual location within the ward.
 
 ### Validation and Quality Assurance
 
 Data quality assurance proceeds throughout the pipeline:
 
-**Registration Validation:**
+**Registration Validation:** *\[To be filled\]*
 
-*\[To be filled\]*
+**Spatial Validation:** Geocoded coordinates are verified against
+expected province boundaries where pharmacies geocoding outside Gauteng
+or KwaZulu-Natal boundaries require manual review.
 
-**Spatial Validation:**
+**Duplicate Detection:** Post-geocoding spatial analysis identifies
+potential duplicates based on coordinate proximity (within 50-100
+meters) combined with name similarity, addressing records that lack
+`PRACTICE_NUM` for identifier-based deduplication.
 
-*\[To be filled\]*
-
-**Duplicate Detection:**
-
-*\[To be filled\]*
-
-**Outlier Review:**
-
-*\[To be filled\]*
+**Outlier Review:** Accessibility metrics are examined for outliers that
+may indicate data errors, like pharmacies in incorrect locations, or
+genuine access deserts requiring policy attention.
 
 **Validation Limitations:**
 
--   **SAPC Database Access:** *\[To be filled\]*
--   **Registration Currency:** *\[To be filled\]*
--   **Spatial Proximity Thresholds:** *\[To be filled\]*
--   **Name Similarity Matching:** *\[To be filled\]*
--   **Outlier Interpretation:** *\[To be filled\]*
+-   **SAPC Database Access:** The SAPC registration database requires
+    manual searches, so bulk automated validation is not supported,
+    limiting the number of records that can be verified and creating
+    potential for human error in lookup processes.
+-   **Registration Currency:** SAPC registration status reflects the
+    time of query and pharmacies may have been registered when data was
+    collected but subsequently deregistered, or vice versa.
+-   **Spatial Proximity Thresholds:** The 50-100 meter threshold for
+    duplicate detection is heuristic, so pharmacies in the same shopping
+    center may legitimately be within this range, while geocoding errors
+    may place duplicates further apart.
+-   **Name Similarity Matching:** Fuzzy name matching for duplicate
+    detection may produce false positives (different pharmacies with
+    similar names) or false negatives (same pharmacy with variant name
+    spellings across sources).
+-   **Outlier Interpretation:** Extreme accessibility values may reflect
+    genuine conditions (true access deserts or highly accessible areas)
+    or data errors, and distinguishing these conditions require
+    contextual investigation that may not be feasible at scale.
 
 ### Summary of Methodological Limitations
 
@@ -718,75 +797,81 @@ The methodology employed in this project involves multiple stages, each
 introducing potential sources of error that may propagate through the
 analysis pipeline. Key limitations are summarized below:
 
-| Stage                     | Primary Limitation | Mitigation Strategy |
-|---------------------------|--------------------|---------------------|
-| Data Collection           | *\[To be filled\]* | *\[To be filled\]*  |
-| PDF Extraction            | *\[To be filled\]* | *\[To be filled\]*  |
-| Province Inference        | *\[To be filled\]* | *\[To be filled\]*  |
-| Deduplication             | *\[To be filled\]* | *\[To be filled\]*  |
-| Geocoding                 | *\[To be filled\]* | *\[To be filled\]*  |
-| Areal Weighting           | *\[To be filled\]* | *\[To be filled\]*  |
-| Step-Down Model           | *\[To be filled\]* | *\[To be filled\]*  |
-| Accessibility Calculation | *\[To be filled\]* | *\[To be filled\]*  |
-| Environmental Variables   | *\[To be filled\]* | *\[To be filled\]*  |
+| Stage | Primary Limitation | Mitigation Strategy |
+|----|----|----|
+| Data Collection | Network participation bias, missing independent pharmacies | Cross-validation with Google Places API |
+| PDF Extraction | OCR errors in addresses | Manual review of geocoding failures, iterative address cleaning |
+| Province Inference | Lookup table incompleteness | Iterative refinement based on dropped record review |
+| Deduplication | Missing `PRACTICE_NUM` for \~1,500 records | Post-geocoding spatial deduplication, conservative retention |
+| Geocoding | Variable coverage, address format inconsistency | Dual-source geocoding, confidence score filtering |
+| Areal Weighting | Homogeneous distribution assumption | Sensitivity analysis, comparison with WorldPop estimates |
+| Step-Down Model | 11-year temporal gap, stationarity assumption | Multi-method comparison, flagging high-divergence areas |
+| Accessibility Calculation | Centroid assumption, threshold arbitrariness | Multiple metric calculation, distance decay functions |
+| Environmental Variables | Temporal mismatch, detection accuracy | Confidence filtering, seasonal composite imagery |
 
 Users of this analysis should interpret results as indicative rather
 than definitive, particularly in areas where multiple limitations may
-compound. Policy decisions should be informed by but not solely
-determined by these accessibility measures, with ground-truthing
+compound. In this regard, policy decisions should be informed by but not
+solely determined by these accessibility measures, with ground-truthing
 recommended for priority intervention areas.
 
 ------------------------------------------------------------------------
 
-## Exploratory Data Analysis
+## Exploratory Data Analysis \[TESS\]
 
 ### Pharmacy Distribution
 
 *\[Section to be populated with analysis results including:\]*
 
--   Total pharmacy counts by province and type (private/hospital)
--   Pharmacy density maps and kernel density estimation
--   Spatial clustering analysis (Moran's I, LISA clusters)
--   Distribution by insurance network source
--   PRACTICE_NUM completeness rates by source
--   Geocoding success rates and confidence distributions
+-   *Total pharmacy counts by province and type (private/hospital)*
+-   *Pharmacy density maps and kernel density estimation*
+-   *Spatial clustering analysis (Moran's I, LISA clusters)*
+-   *Distribution by insurance network source*
+-   *`PRACTICE_NUM` completeness rates by source*
+-   *Geocoding success rates and confidence distributions*
 
 ### Population Characteristics
 
 *\[Section to be populated with analysis results including:\]*
 
--   Population distributions across administrative units
--   Demographic breakdowns (age, race) by municipality
--   Comparison of population estimation approaches
--   Urban/rural population distributions
--   Population density mapping
+-   *Population distributions across administrative units*
+-   *Demographic breakdowns (age, race) by municipality*
+-   *Comparison of population estimation approaches*
+-   *Urban/rural population distributions*
+-   *Population density mapping*
 
 ### Accessibility Patterns
 
 *\[Section to be populated with analysis results including:\]*
 
--   Distance to nearest pharmacy distributions
--   Accessibility metric maps
--   Comparison of accessibility measures (straight-line vs. network)
--   Population-weighted accessibility summaries
--   Identification of access deserts (low-accessibility clusters)
+-   *Distance to nearest pharmacy distributions*
+-   *Accessibility metric maps*
+-   *Comparison of accessibility measures (straight-line vs. network)*
+-   *Population-weighted accessibility summaries*
+-   *Identification of access deserts (low-accessibility clusters)*
 
 ### Correlations with Apartheid Geography
 
 *\[Section to be populated with analysis results including:\]*
 
--   Accessibility differences by settlement type
--   Relationship between accessibility and demographic composition
--   Comparison of historically white vs. township areas
--   Informal settlement accessibility analysis
+-   *Accessibility differences by settlement type*
+-   *Relationship between accessibility and demographic composition*
+-   *Comparison of historically white vs. township areas*
+-   *Informal settlement accessibility analysis*
 
 ------------------------------------------------------------------------
 
-## User Interface and User Experience
+## Datasheets for Datasets \[TESS\]
+
+*\[To be filled\]*
+
+------------------------------------------------------------------------
+
+## User Interface and User Experience \[ALEX\]
 
 ### Design Philosophy
 
-The web application serves a journalistic function, enabling
+The web application serves a journalistic function, allowing
 non-technical users to understand healthcare access patterns in the
 study area. The interface design prioritizes:
 
@@ -816,8 +901,8 @@ study area. The interface design prioritizes:
 
 Initial view provides narrative context about the NHI Act, healthcare
 access challenges, and the significance of pharmacy distribution.
-Scrollytelling format guides users through key findings before releasing
-them to free exploration.
+Scrollytelling or map dashboard format guides users through key findings
+before releasing them to free exploration.
 
 **Interactive Map:**
 
@@ -862,22 +947,22 @@ Accessible documentation explaining:
 **Use Case 1: General Public Information Seeking**
 
 A South African citizen wants to understand whether their area has
-adequate pharmacy access relative to other areas. They can input their
-location or select their ward/municipality to see local accessibility
-metrics compared to provincial averages.
+adequate pharmacy access relative to other areas where they can select
+their ward/municipality to see local accessibility metrics compared to
+provincial averages.
 
 **Use Case 2: Policy Analysis**
 
 A government official or NGO analyst wants to identify priority areas
-for pharmacy infrastructure investment. They can view maps of
+for pharmacy infrastructure investment where they can view maps of
 accessibility gaps, filter by demographic characteristics, and export
 summary statistics for reporting.
 
 **Use Case 3: Research Reference**
 
 An academic researcher wants to understand the methodology for potential
-replication in other contexts. They can access detailed documentation
-and download source code for adaptation.
+replication in other contexts where they can access detailed
+documentation and download source code for adaptation.
 
 ------------------------------------------------------------------------
 
@@ -915,7 +1000,7 @@ at the University of Pennsylvania's Weitzman School of Design.
 -   GEMS, Momentum, Wooltru, SAMWUMED, Discovery Vitality (pharmacy
     network listings)
 
--   Google (Places and Geocoder APIs)
+-   Google (Places API)
 
 **Methodological Foundations:**
 
@@ -935,8 +1020,8 @@ primary scripts:
 
 **01_combine_pharmacies.sql**
 
-Creates the unified PHARMACIES_COMBINED table from eight source tables.
-Key operations include:
+Creates the unified `PHARMACIES_COMBINED` table from eight source
+tables. Key operations include:
 
 -   Schema standardization across varied source formats
 
@@ -944,24 +1029,24 @@ Key operations include:
 
 -   Phone number cleaning (numeric only, 10-digit standardization)
 
--   Practice name normalization (INITCAP formatting)
+-   Practice name normalization (`INITCAP` formatting)
 
--   Source tracking via COMPANY column
+-   Source tracking via `COMPANY` column
 
--   Conservative deduplication using PRACTICE_NUM
+-   Conservative deduplication using `PRACTICE_NUM`
 
 **02_province_lookup_update.sql**
 
-Updates the PROVINCE_LOOKUP reference table with missing suburbs
+Updates the `PROVINCE_LOOKUP` reference table with missing suburbs
 identified during processing review. Ensures comprehensive coverage of
 Gauteng and KwaZulu-Natal geographic names.
 
 **03_fill_gaps_pharmacies.sql**
 
-Populates missing PROVINCE values using multi-stage matching against the
-lookup table:
+Populates missing `PROVINCE` values using multi-stage matching against
+the lookup table:
 
--   Primary match on CITY column
+-   Primary match on `CITY` column
 
 -   Secondary match on address last segment
 
@@ -973,38 +1058,38 @@ lookup table:
 
 **04_deduplicate_pharmacies.sql**
 
-Creates PHARMACIES_DEDUPLICATED with cross-source deduplication:
+Creates `PHARMACIES_DEDUPLICATED` with cross-source deduplication:
 
--   Records with PRACTICE_NUM grouped by identifier and province
+-   Records with `PRACTICE_NUM` grouped by identifier and province
 
 -   Longest address retained for geocoding quality
 
--   Source networks aggregated to COMPANIES column
+-   Source networks aggregated to `COMPANIES` column
 
--   Records without PRACTICE_NUM preserved for spatial deduplication
+-   Records without `PRACTICE_NUM` preserved for spatial deduplication
 
 **05_add_hospitals.sql**
 
 Appends public hospital records from government sources:
 
--   Sequential PHARMACY_ID continuation
+-   Sequential `PHARMACY_ID` continuation
 
--   Province mapping from source PR_NAME
+-   Province mapping from source `PR_NAME`
 
 -   Municipality mapping for metro vs. district areas
 
--   PRACTICE_TYPE set to "Hospital", FUNDING set to "Public"
+-   `PRACTICE_TYPE` set to "Hospital", `FUNDING` set to "Public"
 
--   Coordinate creation from X/Y fields using ST_MAKEPOINT()
+-   Coordinate creation from X/Y fields using `ST_MAKEPOINT()`
 
-### Python Scripts
+### Python Scripts \[JILL, JOEY, TESS\]
 
 *\[To be filled\]*
 
 *\[Additional geocoding, analysis, and visualization scripts to be
 populated\]*
 
-### JavaScript Application
+### JavaScript Application \[ALEX\]
 
 *\[To be populated with web application code\]*
 
