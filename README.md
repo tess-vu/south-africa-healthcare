@@ -594,9 +594,18 @@ This is joined back to the SAL layer by EA_CODE --> Summarize Table --> AREA==Ma
 | 76410132      | 74805033          | 15722398      | province| district|
 | 53810017    |      52606020|     5720   |province |     district    | 
 
-#### Step-Down Model to Small Area Layers
+Final output: Sal_with_wards.shp
 
-*\[To be filled\]*
+#### subtitle
+
+Moving over to Python
+```python
+# sal_with_ward = gpd.read_file("sal_w_ward_new.shp")
+sal_with_ward=sal_with_ward.rename(columns={'census_war': 'WardID'})
+sal_wards= sal_with_ward[['WardID', 'EA_CODE', 'sal2011_po', "Total", 'EA_GTYPE', 'EA_TYPE', 'F4_class', 'num_houses', 'AREA',
+                         'Black_Afri', 'White', 'Coloured', 'Indian_or', 'Other',    ]]
+
+# …rest of your code
 
 #### Areal-Weighted Interpolation to Grid Cells
 
