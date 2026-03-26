@@ -559,7 +559,7 @@ medication availability, and the dataset also may not capture
 clinic-based pharmacies or community health centers that provide
 pharmaceutical services.
 
-### Population Data and Downscaling (Step-Down Methodology) [JILL\]
+### Population Data and Downscaling: Step-Down Methodology and Daysymetric Mapping 
 
 This approach estimates small-area population counts for 2023 (SAL-level) using a combination of  
 2011 SAL population data, 2023 ward-level projections, and spatial weighting.  
@@ -740,9 +740,20 @@ Duplicates dropped to elimnate double counting
 sal_wards = sal_wards.drop_duplicates(subset='EA_CODE', keep='first')
 ```
 
-#### Areal-Weighted Interpolation to Grid Cells
+#### Areal-Weighted Dasymetric Mapping
 
-*\[To be filled\]*
+Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: Normalized SAL density multiplied by the proportion of ward population within SAL.  
+```
+sal_wards['dasym_weight'] = (
+    sal_wards['share2011']
+    * sal_wards['dens_norm']
+)
+sal_wards['dasym_weight'] = sal_wards['dasym_weight'] / sal_wards.groupby('WardID')['dasym_weight'].transform('sum')
+```
+Multiplying the weights by the official 2023 ward counts
+```
+sal_wards['sal2023_est'] = sal_wards['dasym_weight'] * sal_wards['ward2023_pop']
+```
 
 #### WorldPop Raster
 
