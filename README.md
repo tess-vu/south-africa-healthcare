@@ -754,10 +754,16 @@ Multiplying the weights by the official 2023 ward counts
 ```
 sal_wards['sal2023_est'] = sal_wards['dasym_weight'] * sal_wards['ward2023_pop']
 ```
+#### Estimation Justification and Reinforcement
 
-#### WorldPop Raster
+If the 2023 SAL estimates were properly dissolved into SAL zones, the difference between the 2023 Census ward counts and our SAL estimates should be extremely minimal; as demonstrated below. 
+```
+wards['ward2023_pop'].sum()-sal_wards['sal2023_est'].sum()
+```
+Outout: (-3.725)
 
-*\[To be filled\]*
+Building data is used to further justify that our estimates accurately place population and measure true density.
+
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
