@@ -563,7 +563,7 @@ pharmaceutical services.
 
 This approach estimates small-area population counts for 2023 (SAL-level) using a combination of 
 2011 SAL population data, 2023 ward-level projections, and spatial weighting. 
-It leverages population growth patterns, land type, and density to distribute ward-level counts to finer spatial units.
+Using the Step Down Projection Method: It leverages population growth patterns and density to distribute ward-level counts to finer spatial units.
 
 #### Data Preparation
 
@@ -673,13 +673,13 @@ summary
 | geometry   | geometry       |    1430 |     1430 |
 | Total      | object         |    1430 |     1430 |
 
-
+#### Spatial Joining and Tabulation
 Using ArcGis:
 Tabulate Intersection-->
-Input Zone: 2011 SAL geometries
-Input Class: 2023 Ward Geometries
+/nInput Zone: 2011 SAL geometries
+/nInput Class: 2023 Ward Geometries
 
-Output: EA_CODE (Sal ID), WardID, AREA (of SAL), Percenatage (Of SAL within Ward)
+/nOutput: EA_CODE (Sal ID), WardID, AREA (of SAL), Percenatage (Of SAL within Ward)
 
 This table identifies the ward(s) that each SAL encompasses, the percentage of the area of the ward that the SAL takes up, and the area.
 | EA_CODE        |  WardID        |AREA           | Percentage|     
@@ -700,7 +700,7 @@ This is joined back to the SAL layer by EA_CODE --> Summarize Table --> AREA==Ma
 
 Final output: Sal_with_wards.shp
 
-#### subtitle
+#### Density Calculations and Estimations 
 
 Moving over to Python
 Loading in the new shapefile, fixing column titles, filtering select columns for analysis, and cleaning column entries to remove extra characters.   
@@ -720,7 +720,6 @@ sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(
 )
 ```
 
-The origial 2011 SAL dataset had 
 
 
 #### Areal-Weighted Interpolation to Grid Cells
