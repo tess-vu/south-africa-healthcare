@@ -599,14 +599,22 @@ Final output: Sal_with_wards.shp
 #### subtitle
 
 Moving over to Python
+Loading in the new shapefile, fixing column titles, filtering select columns for analysis, and cleaning column entries to remove extra characters.   
 ```python
-# sal_with_ward = gpd.read_file("sal_w_ward_new.shp")
+sal_with_ward = gpd.read_file("sal_w_ward_new.shp")
 sal_with_ward=sal_with_ward.rename(columns={'census_war': 'WardID'})
 sal_wards= sal_with_ward[['WardID', 'EA_CODE', 'sal2011_po', "Total", 'EA_GTYPE', 'EA_TYPE', 'F4_class', 'num_houses', 'AREA',
                          'Black_Afri', 'White', 'Coloured', 'Indian_or', 'Other',    ]]
 
-# …rest of your code
-
+sal_wards=sal_wards.rename(columns={'sal2011_po': 'sal2011_pop',
+                            'Total':'ward2023_pop',
+                                'F4_class': 'econ_status',
+                                'num_houses': 'houses2011'})
+sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(r'_\*$', '', regex=True)
+sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(
+    'Smallholdings', 'Small holdings'
+)
+```
 #### Areal-Weighted Interpolation to Grid Cells
 
 *\[To be filled\]*
