@@ -780,7 +780,13 @@ Building data is used to further justify that our estimates accurately place pop
  |max   |     36652.4   |11717     | 0.2|0.9|
 
 
-
+|   WardID |     EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |        AREA |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   new_areakm |   sal_dense |   dens_norm |   ward2011_sum |   share2011 |   dasym_weight |   sal2023_est |   growth_rate |
+|---------:|------------:|--------------:|---------------:|:------------|:------------------------|:--------------|-------------:|------------:|-------------:|--------:|-----------:|------------:|--------:|-------------:|------------:|------------:|---------------:|------------:|---------------:|--------------:|--------------:|
+| 52103007 | 5.03103e+07 |           559 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          131 | 6.05919e+06 |          558 |       0 |          0 |           1 |       0 |      6.05919 |     92.2566 |    0.141336 |           7387 |   0.0756735 |      0.0263328 |       155.019 |    -0.10137   |
+| 52103007 | 5.03103e+07 |           713 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          167 | 3.50698e+06 |          713 |       0 |          0 |           0 |       0 |      3.50698 |    203.309  |    0.311466 |           7387 |   0.0965209 |      0.0740174 |       435.734 |    -0.0402068 |
+| 52103007 | 5.03103e+07 |           443 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          135 | 1.9116e+06  |          443 |       0 |          0 |           0 |       0 |      1.9116  |    231.743  |    0.355027 |           7387 |   0.0599702 |      0.0524202 |       308.593 |    -0.0296795 |
+| 52103007 | 5.03103e+07 |           743 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          154 | 1.68753e+06 |          740 |       0 |          1 |           1 |       1 |      1.68753 |    440.289  |    0.674516 |           7387 |   0.100582  |      0.167038  |       983.337 |     0.0236295 |
+| 52103006 | 5.03103e+07 |           339 |        7902.25 | Traditional | Traditional residential | Non_Wealthy   |           92 | 2.65791e+06 |          339 |       0 |          0 |           0 |       0 |      2.65791 |    127.544  |    0.29698  |           8923 |   0.0379917 |      0.0244415 |       193.143 |    -0.0457989 |
 
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
