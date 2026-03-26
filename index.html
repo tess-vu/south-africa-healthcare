@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wireframe</title>
+    <style>
+
+.body {
+    margin: 0;
+    font-family: serif;
+}
+
+.navbar {
+    background: #011F5B ;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.hero-title {
+    font-size: 32px;
+    padding: 40px;
+}
+
+.story-section {
+    display: flex;
+    gap: 24px;
+    padding: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+.vis-block {
+    width: 400px;
+    height: 250px;
+    background: #f0f4f8;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.map-view {
+    display: none;
+}
+.map-container {
+    display: flex;        /* puts children side by side */
+    height: 500px;
+    gap: 0;
+}
+
+.map-area {
+    flex: 1;              /* map takes remaining space */
+    height: 100%;
+    border-radius: 0;
+    position: relative;     /* optional, cleaner edge-to-edge */
+}
+
+.map-sidebar {
+    width: 280px;         /* fixed width stats panel */
+    background: white;
+    border-left: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+}
+
+.stat-card {
+    background: #f0f4f8;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 500;
+    color: #011F5B;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.map-legend {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.footer {
+    background: #011F5B ;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.footer-left, .footer-right {
+    display: flex;
+    gap: 12px;
+}
+    </style>
+  </head>
+
+  <body>
+    <div class="wireframe">  <!-- Main container -->
+         <!-- STORY VIEW -->
+    <div class="story-view" id="story-view">
+      <div class="navbar"> 
+        <span class="nav-title">Project Title</span>
+        <div class="nav-links">
+          <button class="nav-link" onclick="highlightNav(this)">About</button>
+          <button class="nav-link" onclick="highlightNav(this)">Methods</button>
+          <button class="nav-link" onclick="highlightNav(this)">GitHub</button>
+          <button class="nav-cta" onclick="switchView('map')">Map</button>
+        </div>
+      </div>
+
+      <div class="title">
+        <div class="hero-title">TAKEAWAY TITLE</div>
+        <div class="hero-subtitle">Context: NHI Act 2024 expanding public reach to pharmacies</div>
+        <div class="hero-action">
+          <button class="primary-btn" onclick="switchView('map')">Explore the Map</button>
+          <button class="secondary-btn" onclick="document.getElementById('s1').scrollIntoView();">Read the Story</button>
+        </div>
+        <div class="hero-progress">
+            <div class="sp-dot" id ="sp0"></div>
+            <div class="sp-dot" id ="sp1"></div>
+            <div class="sp-dot" id ="sp2"></div>
+            <div class="sp-dot" id ="sp3"></div>
+            <span class="sp-text">Scroll to explore</span>
+        </div>
+      </div>
+
+     <div class="narrative">
+        <div class="story-section" id="s1">  <!-- Story section 1 -->
+          <div class="vis-block"> Aggregated Data</div>
+          <span class="story-text">Story section 1 text goes here. This is where you can provide context and insights about the data visualization.</span>
+        </div>
+        <div class="story-section" id="s2">  <!-- Story section 2 -->
+          <div class="vis-block"> Aggregated Data</div>
+          <span class="story-text">Story section 2 text goes here. This is where you can provide context and insights about the data visualization.</span>
+        </div>
+        <div class="story-section" id="s3">  <!-- Story section 3 -->
+          <div class="vis-block"> Aggregated Data</div>
+          <span class="story-text">Story section 3 text goes here. This is where you can provide context and insights about the data visualization.</span>  
+        </div>
+    <div class="cta-bar">
+        <span class="cta-text">Interested in learning more?</span>
+        <button class="cta-btn" onclick="switchView('map')">Click to Explore</button>
+    </div>
+        </div>
+    <div class="footer">
+        <div class="footer-left">
+            <span class="footer-text">© MUSA Practicum 2026 Vu, Cahil, Kalman, Stauffer</span>
+            <span class="footer-text link">DAIR INSTITUTE</span>
+            <span class="footer-text link"> University of Pennsylvania</span>
+        </div>
+        <div class="footer-right">
+            <span class="footer-text link">Wireframe</span>
+            <span class="footer-text link">Contact</span>
+        </div>
+        </div>
+    </div>
+
+    <!--MAP VIEW-->
+    <div class="map-view" id="map-view">
+        <div class="navbar"> 
+        <span class="nav-title">Project Title</span>
+        <div class="nav-links">
+          <button class="nav-link" onclick="highlightNav(this)">About</button>
+          <button class="nav-link" onclick="highlightNav(this)">Methods</button>
+          <button class="nav-link" onclick="highlightNav(this)">GitHub</button>
+          <button class="nav-cta" onclick="switchView('story')">Story</button>
+        </div>
+      </div>
+    <div class="map-container">
+
+    <div class="map-area" id="map-area" onclick="handleMapClick(event)">
+        <div class="map-label-big">
+            Gauteng / KwaZulu-Natal
+            <br>
+            <span style="font-size:9px">click to drop a pin</span>
+        </div>
+
+        <div class="map-controls">
+            <div class="map-btn">+</div>
+            <div class="map-btn">−</div>
+        </div>
+
+        <div class="map-legend">
+            <div class="legend-title">Pharmacy type</div>
+            <div class="legend-row">
+                <div class="legend-dot" style="background:#0077b6"></div>
+                <span>Public</span>
+            </div>
+            <div class="legend-row">
+                <div class="legend-dot" style="background:#48cae4"></div>
+                <span>Private chain</span>
+            </div>
+            <div class="legend-row">
+                <div class="legend-dot" style="background:#f77f00"></div>
+                <span>Hospital</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats panel sits NEXT TO map, not inside it -->
+    <div class="map-sidebar">
+        <div class="stat-card">
+            <div class="stat-label">Pharmacies in range</div>
+            <div class="stat-number">—</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Nearest pharmacy</div>
+            <div class="stat-number">—</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Public access</div>
+            <div class="stat-number">—</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Private access</div>
+            <div class="stat-number">—</div>
+        </div>
+    </div>
+
+</div>
+
+      <div class="footer">
+        <div class="footer-left">
+            <span class="footer-text">© MUSA Practicum 2026 Vu, Cahil, Kalman, Stauffer</span>
+            <span class="footer-text link">DAIR INSTITUTE</span>
+            <span class="footer-text link"> University of Pennsylvania</span>
+        </div>
+        <div class="footer-right">
+            <span class="footer-text link">Wireframe</span>
+            <span class="footer-text link">Contact</span>
+        </div>
+       </div>
+      </div>
+    </div>
+    </div>
+
+    <script>
+        function switchView(view) {
+            document.getElementById('story-view').style.display = 
+                view === 'story' ? 'block' : 'none';
+            document.getElementById('map-view').style.display = 
+                view === 'map' ? 'block' : 'none';
+         }
+
+        function highlightNav(button) {
+            button.closest('.nav-links').querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
+        function handleMapClick(event) {
+    // For now, just log the click. In a real implementation, you'd calculate stats based on the click location.
+    console.log('map clicked');
+}
+    </script>
+
+  </body>
+</html>
