@@ -561,13 +561,13 @@ pharmaceutical services.
 
 ### Population Data and Downscaling \[JILL\]
 
-This approach estimates small-area population counts for 2023 (SAL-level) using a combination of 
-2011 SAL population data, 2023 ward-level projections, and spatial weighting. 
+This approach estimates small-area population counts for 2023 (SAL-level) using a combination of  
+2011 SAL population data, 2023 ward-level projections, and spatial weighting.  
 Using the Step Down Projection Method: It leverages population growth patterns and density to distribute ward-level counts to finer spatial units.
 
 #### Data Preparation
 
-2011 SAL census shapefile (ea_sal_kzn_gp.shp)\n 
+2011 SAL census shapefile (ea_sal_kzn_gp.shp)  
 Already filtered to just Gauteng and KZN
 
 ```summary = pd.DataFrame({
@@ -640,8 +640,9 @@ summary
 | 85+        | object   |   37093 |       99 |
 | geometry   | geometry |   39177 |    38380 |
 
-2023 Ward shapefile and population (SA_Wards2020.dbf and census_ward_2023_with_pop.csv)
-\nJoining with CSV where population data lives and filtering down to Gauteng and KZN. 
+2023 Ward shapefile and population (SA_Wards2020.dbf and census_ward_2023_with_pop.csv)  
+
+Joining with CSV where population data lives and filtering down to Gauteng and KZN. 
 ```
 wards = wards.merge(
     wards_with_pop[['WardID', 'Total',]],
@@ -674,12 +675,12 @@ summary
 | Total      | object         |    1430 |     1430 |
 
 #### Spatial Joining and Tabulation
-Using ArcGis:
+Using ArcGis:  
 Tabulate Intersection-->
-/nInput Zone: 2011 SAL geometries
-/nInput Class: 2023 Ward Geometries
+Input Zone: 2011 SAL geometries
+Input Class: 2023 Ward Geometries
 
-/nOutput: EA_CODE (Sal ID), WardID, AREA (of SAL), Percenatage (Of SAL within Ward)
+Output: EA_CODE (Sal ID), WardID, AREA (of SAL), Percenatage (Of SAL within Ward)
 
 This table identifies the ward(s) that each SAL encompasses, the percentage of the area of the ward that the SAL takes up, and the area.
 | EA_CODE        |  WardID        |AREA           | Percentage|     
