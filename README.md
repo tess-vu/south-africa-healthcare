@@ -567,7 +567,7 @@ It leverages population growth patterns, land type, and density to distribute wa
 
 #### Data Preparation
 
-2011 SAL census shapefile (ea_sal_kzn_gp.shp)
+2011 SAL census shapefile (ea_sal_kzn_gp.shp)\n 
 Already filtered to just Gauteng and KZN
 
 ```summary = pd.DataFrame({
@@ -579,9 +579,69 @@ Already filtered to just Gauteng and KZN
 
 summary
 ```
+| Column     | Type     |   Count |   Unique |
+|:-----------|:---------|--------:|---------:|
+| OBJECTID   | int64    |   39177 |    38380 |
+| EA_CODE    | float64  |   39177 |    38380 |
+| SP_CODE    | float64  |   39177 |     6791 |
+| SP_NAME    | object   |   39177 |     6517 |
+| MP_CODE    | float64  |   39177 |     3381 |
+| MP_NAME    | object   |   39177 |     3166 |
+| MN_MDB_C   | object   |   39177 |       61 |
+| MN_CODE    | float64  |   39177 |       61 |
+| MN_NAME    | object   |   39177 |       61 |
+| MN_TYPE    | object   |   39177 |        2 |
+| DC_MDB_C   | object   |   39177 |       16 |
+| DC_MN_C    | float64  |   39177 |       16 |
+| DC_NAME    | object   |   39177 |       16 |
+| PR_MDB_C   | object   |   39177 |        2 |
+| PR_CODE    | float64  |   39177 |        2 |
+| PR_NAME    | object   |   39177 |        2 |
+| EA_GTYPE   | object   |   39177 |        3 |
+| ALBERS_ARE | float64  |   39177 |    38380 |
+| MD_CODE    | float64  |   39177 |        1 |
+| MD_NAME    | object   |       0 |        0 |
+| Shape_Leng | float64  |   39177 |    38380 |
+| Shape_Area | float64  |   39177 |    38224 |
+| SAL_CODE   | int64    |   39177 |    32615 |
+| EA_TYPE    | object   |   39177 |       20 |
+| 4_class    | object   |   37887 |        3 |
+| EA_area_km | float64  |   39177 |    27147 |
+| num_houses | float64  |   39177 |      755 |
+| 4_class_2  | object   |   37093 |        3 |
+| num_build  | float64  |   37093 |      732 |
+| EA_CODE_1  | float64  |   37093 |    37093 |
+| old_EA_TYP | object   |   37093 |       10 |
+| smallplace | object   |   37093 |    32041 |
+| url        | object   |   37093 |    32201 |
+| Black Afri | object   |   37093 |     1849 |
+| White      | object   |   37093 |      732 |
+| Coloured   | object   |   37093 |      594 |
+| Indian or  | object   |   37093 |      806 |
+| Other      | object   |   37093 |      132 |
+| population | object   |   37093 |     1922 |
+| 0_4        | object   |   37093 |      331 |
+| 5_9        | object   |   37093 |      276 |
+| 10_14      | object   |   37093 |      269 |
+| 15_19      | object   |   37093 |      308 |
+| 20_24      | object   |   37093 |      436 |
+| 25_29      | object   |   37093 |      448 |
+| 30_34      | object   |   37093 |      354 |
+| 35_39      | object   |   37093 |      273 |
+| 40_44      | object   |   37093 |      205 |
+| 45_49      | object   |   37093 |      176 |
+| 50_54      | object   |   37093 |      145 |
+| 55_59      | object   |   37093 |      120 |
+| 60_64      | object   |   37093 |      108 |
+| 65_69      | object   |   37093 |       96 |
+| 70_74      | object   |   37093 |      106 |
+| 75_79      | object   |   37093 |      103 |
+| 80_84      | object   |   37093 |       98 |
+| 85+        | object   |   37093 |       99 |
+| geometry   | geometry |   39177 |    38380 |
 
 2023 Ward shapefile and population (SA_Wards2020.dbf and census_ward_2023_with_pop.csv)
-Joining with CSV where population data lives and filtering down to Gauteng and KZN. 
+\nJoining with CSV where population data lives and filtering down to Gauteng and KZN. 
 ```
 wards = wards.merge(
     wards_with_pop[['WardID', 'Total',]],
@@ -599,7 +659,19 @@ summary = pd.DataFrame({
 
 summary
 ```
-
+| Column     | Type           |   Count |   Unique |
+|:-----------|:---------------|--------:|---------:|
+| Province   | object         |    1430 |        2 |
+| Municipali | object         |    1430 |       53 |
+| CAT_B      | object         |    1430 |       53 |
+| WardNo     | int64          |    1430 |      135 |
+| District   | object         |    1430 |       16 |
+| DistrictCo | object         |    1430 |       16 |
+| Date       | datetime64[ms] |    1430 |        2 |
+| WardID     | object         |    1430 |     1430 |
+| WardLabel  | object         |    1430 |     1430 |
+| geometry   | geometry       |    1430 |     1430 |
+| Total      | object         |    1430 |     1430 |
 
 
 Using ArcGis:
