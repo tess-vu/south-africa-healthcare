@@ -760,9 +760,27 @@ If the 2023 SAL estimates were properly dissolved into SAL zones, the difference
 ```
 wards['ward2023_pop'].sum()-sal_wards['sal2023_est'].sum()
 ```
-Outout: (-3.725)
+Output: (-3.725)
 
 Building data is used to further justify that our estimates accurately place population and measure true density.
+[text]
+
+
+#### Estimation Summarizations
+
+|    |   sal2023_est |  sal2011_pop|     growth_rate |     dasym_weight |                         
+|-- |--------------:|--------------:|--------------:|---------------:|
+| count   |     38380     |38380| 37110    |     38380|
+|mean    |       717.127 |643.432 |  -0.044 |0.04|
+|std    |       851.423 |  354.558 -|0.11| 0.06|
+|min    |         0     | 0        |-0.65|0|
+| 25%    |       151.402 | 451     |-0.08|0.006|
+|50%    |       491.374 |  623     |-0.01| 0.02|
+|75%    |      1019.12  |  809     | 0.03|0.04|
+ |max   |     36652.4   |11717     | 0.2|0.9|
+
+
+
 
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
