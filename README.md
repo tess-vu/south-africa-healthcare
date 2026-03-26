@@ -592,7 +592,7 @@ This is joined back to the SAL layer by EA_CODE --> Summarize Table --> AREA==Ma
 | 50310001      | 52103001         | 6967088     |    province| district|
 | 58110038      |52606020          | 48373210  | province|    district|
 | 76410132      | 74805033          | 15722398      | province| district|
-| 53810017    |      52606020|        | 5720|    province     | district|
+| 53810017    |      52606020|     5720   |province |     district    | 
 
 #### Step-Down Model to Small Area Layers
 
