@@ -568,7 +568,39 @@ It leverages population growth patterns, land type, and density to distribute wa
 #### Data Preparation
 
 2011 SAL census shapefile (ea_sal_kzn_gp.shp)
+Already filtered to just Gauteng and KZN
+
+```summary = pd.DataFrame({
+    'Column': sal.columns,
+    'Type': sal.dtypes.values,
+    'Count': sal.count().values,
+    'Unique': sal.nunique().values
+})
+
+summary
+```
+
 2023 Ward shapefile and population (SA_Wards2020.dbf and census_ward_2023_with_pop.csv)
+Joining with CSV where population data lives and filtering down to Gauteng and KZN. 
+```
+wards = wards.merge(
+    wards_with_pop[['WardID', 'Total',]],
+    on='WardID',
+    how='left'
+)
+wards = wards[wards['Province'].isin(['Gauteng', 'KwaZulu-Natal'])].copy()
+
+summary = pd.DataFrame({
+    'Column': wards.columns,
+    'Type': wards.dtypes.values,
+    'Count': wards.count().values,
+    'Unique': wards.nunique().values
+})
+
+summary
+```
+
+
 
 Using ArcGis:
 Tabulate Intersection-->
@@ -615,6 +647,10 @@ sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(
     'Smallholdings', 'Small holdings'
 )
 ```
+
+The origial 2011 SAL dataset had 
+
+
 #### Areal-Weighted Interpolation to Grid Cells
 
 *\[To be filled\]*
