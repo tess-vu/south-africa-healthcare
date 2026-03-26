@@ -559,7 +559,7 @@ medication availability, and the dataset also may not capture
 clinic-based pharmacies or community health centers that provide
 pharmaceutical services.
 
-### Population Data and Downscaling \[JILL\]
+### Population Data and Downscaling (Step-Down Methodology) [JILL\]
 
 This approach estimates small-area population counts for 2023 (SAL-level) using a combination of  
 2011 SAL population data, 2023 ward-level projections, and spatial weighting.  
@@ -570,15 +570,6 @@ Using the Step Down Projection Method: It leverages population growth patterns a
 2011 SAL census shapefile (ea_sal_kzn_gp.shp)  
 Already filtered to just Gauteng and KZN
 
-```summary = pd.DataFrame({
-    'Column': sal.columns,
-    'Type': sal.dtypes.values,
-    'Count': sal.count().values,
-    'Unique': sal.nunique().values
-})
-
-summary
-```
 | Column     | Type     |   Count |   Unique |
 |:-----------|:---------|--------:|---------:|
 | OBJECTID   | int64    |   39177 |    38380 |
@@ -651,14 +642,6 @@ wards = wards.merge(
 )
 wards = wards[wards['Province'].isin(['Gauteng', 'KwaZulu-Natal'])].copy()
 
-summary = pd.DataFrame({
-    'Column': wards.columns,
-    'Type': wards.dtypes.values,
-    'Count': wards.count().values,
-    'Unique': wards.nunique().values
-})
-
-summary
 ```
 | Column     | Type           |   Count |   Unique |
 |:-----------|:---------------|--------:|---------:|
