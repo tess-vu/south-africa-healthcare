@@ -790,6 +790,23 @@ Building data is used to further justify that our estimates accurately place pop
 | 52103006 |  50310265 |           339 |        7902.25 | Traditional | Traditional residential | Non_Wealthy   |           92 | 2.65791e+06 |          339 |       0 |          0 |           0 |       0 |      2.65791 |    127.544  |    0.29698  |           8923 |   0.0379917 |      0.0244415 |       193.143 |    -0.0457989 |
 
 
+Below is a summarization by land type. Informal residences saw the highest growth while Farms saw the most decline. This follows general population trends in South Africa over the past several decades that describe a shift to sub-urbanization: people leaving farms and urban centers to settle in moderately dense, developing suburbs.  
+
+| EA_TYPE                    |   pop2011 |   pop2023 |   growth_rate_2011_2023 |
+|:---------------------------|----------:|----------:|------------------------:|
+| Collective living quarters |    341825 |    483081 |                2.92432  |
+| Commercial                 |    354128 |    181993 |               -5.39632  |
+| Farms                      |    464324 |     43147 |              -17.9627   |
+| Formal residential         |   8060534 |   7765564 |               -0.31019  |
+| Industrial                 |    206049 |     40748 |              -12.6335   |
+| Informal residential       |   1849126 |   2975624 |                4.04414  |
+| Parks and recreation       |     21996 |      3849 |              -13.5184   |
+| Small holdings             |    281723 |     41483 |              -14.7546   |
+| Township                   |   7677887 |  10019280 |                2.24284  |
+| Traditional residential    |   5162867 |   5760686 |                0.917219 |
+| Vacant                     |    274446 |    207868 |               -2.28879  |
+
+
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
 Address strings require geocoding to assign geographic coordinates. The
