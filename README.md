@@ -704,6 +704,18 @@ sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(
 )
 ```
 
+As indicated by DAIR, South Africa census has a history up undercounting poulations.  
+There were 2,084 SALs with a null population, so to avoid perpetuating further underestimation, housing counts ('houses2011') were used as a population proxy then multiplied by three (average house size). If the SAL had null/0 population and a house count of 0, their final population remained at 0.  
+'AREA' was divided by 100,000 to convert to squared Km 'new_areakm'. This was done to make the 'sal_dense' outputs easier to work with and not use extrememly small decimals. 
+```
+sal_wards.loc[sal_wards['sal2011_pop'] == 0, 'sal2011_pop'] = sal_wards['houses2011']*3
+sal_wards['new_areakm']=sal_wards['AREA']/1000000
+
+sal_wards['sal_dense'] = (
+    sal_wards['sal2011_pop'].astype(float) /
+    sal_wards['new_areakm'].astype(float)
+)
+```
 
 
 #### Areal-Weighted Interpolation to Grid Cells
