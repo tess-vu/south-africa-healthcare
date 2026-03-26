@@ -561,15 +561,28 @@ pharmaceutical services.
 
 ### Population Data and Downscaling \[JILL\]
 
-The 2023 South African Census provides ward-level population counts and
-demographic distributions. Wards, while providing the finest available
-official geography, may be insufficiently granular for local
-accessibility analysis, and as a solution the project implements
-multiple approaches to estimate population at finer scales.
+This approach estimates small-area population counts for 2023 (SAL-level) using a combination of 
+2011 SAL population data, 2023 ward-level projections, and spatial weighting. 
+It leverages population growth patterns, land type, and density to distribute ward-level counts to finer spatial units.
 
-#### Boundary Mismatch and Areal Weighting
+#### Data Preparation
 
-*\[To be filled\]*
+2011 SAL census shapefile (ea_sal_kzn_gp.shp)
+2023 Ward shapefile and population (SA_Wards2020.dbf and census_ward_2023_with_pop.csv)
+
+Using ArcGis:
+Tabulate Intersection-->
+Input Zone: 2011 SAL geometries
+Input Class: 2023 Ward Geometries
+
+Output: EA_CODE (Sal ID), WardID, AREA (of SAL), Percenatage (Of SAL within Ward)
+
+This table identifies the ward(s) that each SAL encompasses, the percentage of the area of the ward that the SAL takes up, and the area.
+| EA_CODE        |  WardID        |AREA           | Percentage|     
+|----------------|----------------|----------------|----------|
+| 50310001      | 52103001         | 6967088.20     | 99.99|
+| 50310001      |52106004          | 28.807487153359173  |0.0004|
+| 50310001      | 52106014          | 43.38680092706605  |0.0003|
 
 #### Step-Down Model to Small Area Layers
 
