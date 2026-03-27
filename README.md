@@ -772,7 +772,7 @@ Building data is used to further justify that our estimates accurately place pop
 
 #### Estimation Summarizations
 
-|       |   sal2023_est ||   sal2011_pop ||   growth_rate ||   dasym_weight ||   gweight |share2011 
+|       |   sal2023_est ||   sal2011_pop ||   growth_rate ||   dasym_weight ||   gweight |share2011 |
 |:------|--------------:||--------------:||--------------:||--------------:||----------:|----------:|
 | count |     38,380.00 ||     38,380.00 ||     37,110.00 ||      38,380.00 |38,380.00 |38,380.00 |
 | mean  |        717.13 ||        643.43 ||          0.00 ||           0.04 |  1.09 |   0.04 |
