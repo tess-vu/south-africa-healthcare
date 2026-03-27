@@ -794,23 +794,24 @@ Below is a summarization of growth by land type that was used to create weights.
 |  9 | Traditional residential    | 5,162,867.000 | 5,965,887.066 |                   1.212 |
 | 10 | Vacant                     |   274,446.000 |   260,348.495 |                  -0.438 |
 
-Locating the Highest and Lowest Growth Rate 
-|               | Max Growth |          Min Growth|
-|:-------------|:--------------------|:--------------------|
+Locating the Highest and Lowest Growth Rate   
+
+|               | Max Growth        |             Min Growth|
+|:-------------|:--------------------|:----------------------|
 | WardID       | 74202011            |52805012               |
 | EA_CODE      | 76110153            |58810097               |
-| sal2011_pop  | 704.0               | 1.0                    |
+| sal2011_pop  | 704.0               | 1.0                  |
 | ward2023_pop | 20019.120349        |10169.616012           |
 | EA_GTYPE     | Urban               |Traditional            |
 | EA_TYPE      | Formal residential  | Vacant                 |
 | econ_status  | Wealthy             | Non_Residential        |
 | houses2011   | 339.0               |15.0                   |
-| Black_Afri   | 466                 |0|
-| White        | 123                 |0|
-| Coloured     | 22                  |0|
-| Indian_or    | 80                  |0|
-| Other        | 13                  |0|
-| area_km2     | 3.4439985978511474  |77.77991507307826      |
+| Black_Afri   | 466                 |0                 |
+| White        | 123                 |0                 |
+| Coloured     | 22                  |0                 |
+| Indian_or    | 80                  |0                     |
+| Other        | 13                  |0                         |
+| area_km2     | 3.4439985978511474  |77.77991507307826         |
 | sal_dense    | 204.41355592863906  |0.012856789558852671   |
 | log_density  | 5.325025293021861   |0.012774842675117377   |
 | ward2011_sum | 3178.0              |9292.0                 |
@@ -822,13 +823,12 @@ Locating the Highest and Lowest Growth Rate
 
 ### Mapping the Estimates
 #### 2023 Count Estimates (SAL)
-<img src="visuals/pop2023estimate.png" width="800">
-
+[![Map](visuals/pop2023estimate.png)](visuals/pop2023estimate.png)
 #### 2023 Density Estimates (SAL)
-<img src="visuals/popdensity.png" width="800">
+[![Map](visuals/popdensity.png)](visuals/popdensity.png)
 
 #### Zooming into Johannesburg
-<img src="visuals/gauteng_joburg_sidebyside_rect.png" width="800">
+[![Map](visuals/gauteng_joburg_sidebyside_rect.png)](visuals/gauteng_joburg_sidebyside_rect.png)
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
