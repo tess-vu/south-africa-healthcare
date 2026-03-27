@@ -795,7 +795,7 @@ Below is a summarization of growth by land type that was used to create weights.
 | 10 | Vacant                     |   274,446.000 |   260,348.495 |                  -0.438 |
 
 Locating the Highest and Lowest Growth Rate 
-
+|               | Max Growth |          Min Growth|
 |:-------------|:--------------------|:--------------------|
 | WardID       | 74202011            |52805012               |
 | EA_CODE      | 76110153            |58810097               |
