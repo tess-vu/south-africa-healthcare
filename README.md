@@ -704,15 +704,18 @@ sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(
 
 As indicated by DAIR, South Africa census has a history up undercounting populations.  
 There were 2,084 SALs with a null population, so to avoid perpetuating further underestimation, housing counts ('houses2011') were used as a population proxy then multiplied by three (average house size). If the SAL had null/0 population and a house count of 0, their final population remained at 0.  
-'AREA' was divided by 1,000,000 to convert squared meters to squared kilometers 'new_areakm'. This was done to make the 'sal_dense' outputs easier to work with and not use extrememly small decimals.  
+The log of density is used due to outliers and micro-geometries in the size of 0.0002 Kmsq, creating extreme distortions.    
 ```
 sal_wards.loc[sal_wards['sal2011_pop'] == 0, 'sal2011_pop'] = sal_wards['houses2011']*3
-sal_wards['new_areakm']=sal_wards['AREA']/1000000
+
+
+sal_wards['area_km2'] = sal_with_ward.geometry.area / 1e6
 
 sal_wards['sal_dense'] = (
     sal_wards['sal2011_pop'].astype(float) /
-    sal_wards['new_areakm'].astype(float)
+    sal_wards['area_km2'].astype(float)
 )
+sal_wards['log_density'] = np.log1p(sal_wards['sal_dense'])
 
 ```
 #### Areal-Weighted Dasymetric Mapping + Land Type Weighting
@@ -734,25 +737,11 @@ Duplicates dropped to elimnate double counting
 sal_wards = sal_wards.drop_duplicates(subset='EA_CODE', keep='first')
 ```
 
-Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: Land Type weighting multiplied by the dasymetric weight (share2011)
+Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: Density  multiplied by the population share (share2011)
+
+Multiplying the dasymetric weight by the official 2023 ward counts
 ```
-gtype_growth = sal_wards.groupby('EA_TYPE').agg(
-    pop2011=('ward2011_sum','sum'),
-    pop2023=('ward2023_pop','sum')
-).reset_index()
-
-
-gtype_growth['growth_ratio'] = gtype_growth['pop2023'] / gtype_growth['pop2011']
-
-weights_dict = dict(zip(gtype_growth['EA_TYPE'], gtype_growth['growth_ratio']))
-sal_wards['gweight'] = sal_wards['EA_TYPE'].map(weights_dict)
-
-sal_wards['dasym_weight']= sal_wards['share2011']*sal_wards['gweight']
-sal_wards['dasym_weight'] = sal_wards['dasym_weight']/sal_wards.groupby('WardID')['dasym_weight'].transform('sum')
-```
-Multiplying the weights by the official 2023 ward counts
-```
-sal_wards['sal2023_est'] = sal_wards['dasym_weight'] * sal_wards['ward2023_pop']
+sal_wards['dasym_weight']= sal_wards['share2011']*sal_wards['log_density']
 ```
 #### Estimation Justification and Reinforcement
 
@@ -768,69 +757,68 @@ Building data is used to further justify that our estimates accurately place pop
 
 #### Estimation Summarizations
 
-|       |   sal2023_est |   sal2011_pop |   growth_rate |   dasym_weight |   gweight |share2011 |
-|:------|--------------:|--------------:|--------------:|--------------:|----------:|----------:|
-| count |     38,380.00 |     38,380.00 |     37,110.00 |      38,380.00 |38,380.00 |38,380.00 |
-| mean  |        717.13 |        643.43 |          0.00 |           0.04 |  1.09 |   0.04 |
-| std   |        500.91 |        354.56 |          0.03 |           0.04 | 0.20 | 0.04 |
-| min   |          0.00 |          0.00 |         -0.15 |           0.00 | 0.76 | 0.00 |
-| 25%   |        367.56 |        451.00 |         -0.02 |           0.01 | 0.88 | 0.02 |
-| 50%   |        659.75 |        623.00 |          0.01 |           0.02 |  1.16 | 0.02 |
-| 75%   |        981.23 |        809.00 |          0.02 |           0.05 |1.32 |  0.05 |
-| max   |     13,852.28 |     11,717.00 |          0.17 |           0.60 |1.33 |  0.60 |
+|       |   sal2023_est |   sal2011_pop |   growth_rate |   dasym_weight |   share2011 |   log_density |
+|:------|--------------:|--------------:|--------------:|---------------:|------------:|--------------:|
+| count |    38,380.000 |    38,380.000 |    37,110.000 |     38,380.000 |  38,380.000 |    38,380.000 |
+| mean  |       717.127 |       643.432 |        -0.004 |          0.037 |       0.037 |         7.408 |
+| std   |       513.686 |       354.558 |         0.044 |          0.037 |       0.035 |         2.485 |
+| min   |         0.000 |         0.000 |        -0.378 |          0.000 |       0.000 |         0.000 |
+| 25%   |       351.649 |       451.000 |        -0.023 |          0.015 |       0.015 |         6.306 |
+| 50%   |       664.610 |       623.000 |         0.005 |          0.024 |       0.025 |         8.107 |
+| 75%   |       992.974 |       809.000 |         0.023 |          0.048 |       0.050 |         9.141 |
+| max   |    14,387.065 |    11,717.000 |         0.178 |          0.592 |       0.600 |        13.404 |
 
-Sample of final output dataset
+Head of final output dataset
 
-|   WardID |   EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |         AREA |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   new_areakm |   sal_dense |   ward2011_sum |   share2011 |   gweight |   dasym_weight |   sal2023_est |   growth_rate |
-|---------:|----------:|--------------:|---------------:|:------------|:------------------------|:--------------|-------------:|-------------:|-------------:|--------:|-----------:|------------:|--------:|-------------:|------------:|---------------:|------------:|----------:|---------------:|--------------:|--------------:|
-| 52103007 |  50310272 |        559.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       131.00 | 6,059,185.93 |          558 |       0 |          0 |           1 |       0 |         6.06 |       92.26 |       7,387.00 |        0.08 |      1.16 |           0.08 |        448.01 |         -0.02 |
-| 52103007 |  50310271 |        713.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       167.00 | 3,506,975.95 |          713 |       0 |          0 |           0 |       0 |         3.51 |      203.31 |       7,387.00 |        0.10 |      1.16 |           0.10 |        571.43 |         -0.02 |
-| 52103007 |  50310262 |        443.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       135.00 | 1,911,598.77 |          443 |       0 |          0 |           0 |       0 |         1.91 |      231.74 |       7,387.00 |        0.06 |      1.16 |           0.06 |        355.04 |         -0.02 |
-| 52103007 |  50310266 |        743.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       154.00 | 1,687,526.67 |          740 |       0 |          1 |           1 |       1 |         1.69 |      440.29 |       7,387.00 |        0.10 |      1.16 |           0.10 |        595.48 |         -0.02 |
-| 52103006 |  50310265 |        339.00 |       7,902.25 | Traditional | Traditional residential | Non_Wealthy   |        92.00 | 2,657,911.10 |          339 |       0 |          0 |           0 |       0 |         2.66 |      127.54 |       8,923.00 |        0.04 |      1.16 |           0.04 |        301.60 |         -0.01 |
+|    |   WardID |   EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   area_km2 |   sal_dense |   log_density |   ward2011_sum |   share2011 |   dasym_weight |   sal2023_est |   growth_rate |
+|---:|---------:|----------:|--------------:|---------------:|:------------|:------------------------|:--------------|-------------:|-------------:|--------:|-----------:|------------:|--------:|-----------:|------------:|--------------:|---------------:|------------:|---------------:|--------------:|--------------:|
+|  0 | 52103007 |  50310272 |       559.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      131.000 |          558 |       0 |          0 |           1 |       0 |      6.073 |      92.054 |         4.533 |      7,387.000 |       0.076 |          0.067 |       391.863 |        -0.029 |
+|  1 | 52103007 |  50310271 |       713.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      167.000 |          713 |       0 |          0 |           0 |       0 |      3.901 |     182.782 |         5.214 |      7,387.000 |       0.097 |          0.098 |       574.856 |        -0.018 |
+|  2 | 52103007 |  50310262 |       443.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      135.000 |          443 |       0 |          0 |           0 |       0 |      1.927 |     229.936 |         5.442 |      7,387.000 |       0.060 |          0.063 |       372.815 |        -0.014 |
+|  3 | 52103007 |  50310266 |       743.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      154.000 |          740 |       0 |          1 |           1 |       1 |      1.707 |     435.351 |         6.078 |      7,387.000 |       0.101 |          0.119 |       698.395 |        -0.005 |
+|  4 | 52103006 |  50310265 |       339.000 |      7,902.254 | Traditional | Traditional residential | Non_Wealthy   |       92.000 |          339 |       0 |          0 |           0 |       0 |      4.054 |      83.611 |         4.438 |      8,923.000 |       0.038 |          0.034 |       272.536 |        -0.018 |
 
 Below is a summarization of growth by land type that was used to create weights. The largest increase came from 'Informal Residential' and "Township' which supports contemporary literature that indicates trends of suburbanization from highly urbanized centers, nn other words: urban sprawl.     
 
-| EA_TYPE                    |      pop2011 |       pop2023 |   growth_rate_2011_2023 |
-|:---------------------------|-------------:|--------------:|------------------------:|
-| Collective living quarters |   341,825.00 |    222,281.43 |                   -3.52 |
-| Commercial                 |   354,128.00 |    225,901.31 |                   -3.68 |
-| Farms                      |   464,324.00 |    435,958.56 |                   -0.52 |
-| Formal residential         | 8,060,534.00 |  7,113,043.29 |                   -1.04 |
-| Industrial                 |   206,049.00 |    178,067.74 |                   -1.21 |
-| Informal residential       | 1,849,126.00 |  2,623,939.20 |                    2.96 |
-| Parks and recreation       |    21,996.00 |     14,040.69 |                   -3.67 |
-| Small holdings             |   281,723.00 |    316,406.53 |                    0.97 |
-| Township                   | 7,677,887.00 | 10,071,733.78 |                    2.29 |
-| Traditional residential    | 5,162,867.00 |  6,017,688.45 |                    1.28 |
-| Vacant                     |   274,446.00 |    304,268.38 |                    0.86 |
+|    | EA_TYPE                    |       pop2011 |       pop2023 |   growth_rate_2011_2023 |
+|---:|:---------------------------|--------------:|--------------:|------------------------:|
+|  0 | Collective living quarters |   341,825.000 |   286,717.062 |                  -1.454 |
+|  1 | Commercial                 |   354,128.000 |   251,390.430 |                  -2.815 |
+|  2 | Farms                      |   464,324.000 |   239,162.748 |                  -5.379 |
+|  3 | Formal residential         | 8,060,534.000 | 7,759,042.311 |                  -0.317 |
+|  4 | Industrial                 |   206,049.000 |   142,473.030 |                  -3.028 |
+|  5 | Informal residential       | 1,849,126.000 | 2,486,815.695 |                   2.500 |
+|  6 | Parks and recreation       |    21,996.000 |    11,008.926 |                  -5.605 |
+|  7 | Small holdings             |   281,723.000 |   221,943.536 |                  -1.968 |
+|  8 | Township                   | 7,677,887.000 | 9,898,540.063 |                   2.140 |
+|  9 | Traditional residential    | 5,162,867.000 | 5,965,887.066 |                   1.212 |
+| 10 | Vacant                     |   274,446.000 |   260,348.495 |                  -0.438 |
 
 Locating the Highest and Lowest Growth Rate 
 
-|              | 17303               | 19117                      |
-|:-------------|:--------------------|:---------------------------|
-| WardID       | 74202011            |74804019                   |
-| EA_CODE      | 76110216            | 76610105                   |
-| sal2011_pop  | 171.0               |2101.0                     |
-| ward2023_pop | 20019.120349        | 1443.6598164               |
-| EA_GTYPE     | Farms               |Urban                      |
-| EA_TYPE      | Small holdings      |Collective living quarters |
-| econ_status  | Wealthy             |Non_Wealthy                |
-| houses2011   | 100.0               |23.0                       |
-| AREA         | 27501038.0353       |433532.56616               |
-| Black_Afri   | 161                 |2022                       |
-| White        | 7                   |30                         |
-| Coloured     | 3                   |36                         |
-| Indian_or    | 0                   |12                         |
-| Other        | 0                   | 1                          |
-| new_areakm   | 27.501038035300002  |0.43353256615999997        |
-| sal_dense    | 6.217947110960192   |4846.233395127698          |
-| ward2011_sum | 3178.0              | 9219.0                     |
-| share2011    | 0.05380742605412209 | 0.22789890443648986        |
-| gweight      | 1.0684105350737128  | 0.7812012322956611         |
-| dasym_weight | 0.05862529249780314 |0.20605386234760317        |
-| sal2023_est  | 1173.626786008848   |297.47168108525165         |
-| growth_rate  | 0.1741164114902718  |-0.15032736516378076       |
+|:-------------|:--------------------|:--------------------|
+| WardID       | 74202011            |52805012               |
+| EA_CODE      | 76110153            |58810097               |
+| sal2011_pop  | 704.0               | 1.0                    |
+| ward2023_pop | 20019.120349        |10169.616012           |
+| EA_GTYPE     | Urban               |Traditional            |
+| EA_TYPE      | Formal residential  | Vacant                 |
+| econ_status  | Wealthy             | Non_Residential        |
+| houses2011   | 339.0               |15.0                   |
+| Black_Afri   | 466                 |0|
+| White        | 123                 |0|
+| Coloured     | 22                  |0|
+| Indian_or    | 80                  |0|
+| Other        | 13                  |0|
+| area_km2     | 3.4439985978511474  |77.77991507307826      |
+| sal_dense    | 204.41355592863906  |0.012856789558852671   |
+| log_density  | 5.325025293021861   |0.012774842675117377   |
+| ward2011_sum | 3178.0              |9292.0                 |
+| share2011    | 0.22152297042164884 |0.00010761945759793371 |
+| dasym_weight | 0.2516713352276131  |3.2707980640609965e-07 |
+| sal2023_est  | 5038.23874831511    |0.0033262760364293313  |
+| growth_rate  | 0.17821760321211277 |-0.37842072737241883   |
+
 
 ### Mapping the Estimates
 #### 2023 Count Estimates (SAL)
