@@ -716,10 +716,6 @@ sal_wards['sal_dense'] = (
     sal_wards['new_areakm'].astype(float)
 )
 
-sal_wards['dens_norm'] = (
-    sal_wards['sal_dense'] /
-    sal_wards.groupby('WardID')['sal_dense'].transform('max')
-)
 ```
 
 We estimate ward-level 2011 counts by grouping at ward-level and summing population counts. This is used to calculate the share of population the SAL contains within the ward 'share2011'.    
@@ -740,15 +736,23 @@ Duplicates dropped to elimnate double counting
 sal_wards = sal_wards.drop_duplicates(subset='EA_CODE', keep='first')
 ```
 
-#### Areal-Weighted Dasymetric Mapping
+#### Areal-Weighted Dasymetric Mapping + Land Type Weighting
 
-Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: Normalized SAL density multiplied by the proportion of ward population within SAL.  
+Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: Land Type weighting multiplied by the dasymetric weight (share2011)
 ```
-sal_wards['dasym_weight'] = (
-    sal_wards['share2011']
-    * sal_wards['dens_norm']
-)
-sal_wards['dasym_weight'] = sal_wards['dasym_weight'] / sal_wards.groupby('WardID')['dasym_weight'].transform('sum')
+gtype_growth = sal_wards.groupby('EA_TYPE').agg(
+    pop2011=('ward2011_sum','sum'),
+    pop2023=('ward2023_pop','sum')
+).reset_index()
+
+
+gtype_growth['growth_ratio'] = gtype_growth['pop2023'] / gtype_growth['pop2011']
+
+weights_dict = dict(zip(gtype_growth['EA_TYPE'], gtype_growth['growth_ratio']))
+sal_wards['gweight'] = sal_wards['EA_TYPE'].map(weights_dict)
+
+sal_wards['dasym_weight']= sal_wards['share2011']*sal_wards['gweight']
+sal_wards['dasym_weight'] = sal_wards['dasym_weight']/sal_wards.groupby('WardID')['dasym_weight'].transform('sum')
 ```
 Multiplying the weights by the official 2023 ward counts
 ```
@@ -760,7 +764,7 @@ If the 2023 SAL estimates were properly dissolved into SAL zones, the difference
 ```
 wards['ward2023_pop'].sum()-sal_wards['sal2023_est'].sum()
 ```
-Output: (-3.725)
+Output: 0
 
 Building data is used to further justify that our estimates accurately place population and measure true density.
 [text]
@@ -771,40 +775,18 @@ Building data is used to further justify that our estimates accurately place pop
 |    |   sal2023_est |  sal2011_pop|     growth_rate |     dasym_weight |                         
 |-- |--------------:|--------------:|--------------:|---------------:|
 | count   |     38380     |38380| 37110    |     38380|
-|mean    |       717.127 |643.432 |  -0.044 |0.04|
-|std    |       851.423 |  354.558 -|0.11| 0.06|
-|min    |         0     | 0        |-0.65|0|
-| 25%    |       151.402 | 451     |-0.08|0.006|
-|50%    |       491.374 |  623     |-0.01| 0.02|
-|75%    |      1019.12  |  809     | 0.03|0.04|
- |max   |     36652.4   |11717     | 0.2|0.9|
+
 
 
 
 |   WardID |   EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |        AREA |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   new_areakm |   sal_dense |   dens_norm |   ward2011_sum |   share2011 |   dasym_weight |   sal2023_est |   growth_rate |
-|---------:|----------:|--------------:|---------------:|:------------|:------------------------|:--------------|-------------:|------------:|-------------:|--------:|-----------:|------------:|--------:|-------------:|------------:|------------:|---------------:|------------:|---------------:|--------------:|--------------:|
-| 52103007 |  50310272 |           559 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          131 | 6.05919e+06 |          558 |       0 |          0 |           1 |       0 |      6.05919 |     92.2566 |    0.141336 |           7387 |   0.0756735 |      0.0263328 |       155.019 |    -0.10137   |
-| 52103007 |  50310271 |           713 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          167 | 3.50698e+06 |          713 |       0 |          0 |           0 |       0 |      3.50698 |    203.309  |    0.311466 |           7387 |   0.0965209 |      0.0740174 |       435.734 |    -0.0402068 |
-| 52103007 |  50310262 |           443 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          135 | 1.9116e+06  |          443 |       0 |          0 |           0 |       0 |      1.9116  |    231.743  |    0.355027 |           7387 |   0.0599702 |      0.0524202 |       308.593 |    -0.0296795 |
-| 52103007 |  50310266 |           743 |        5886.91 | Traditional | Traditional residential | Non_Wealthy   |          154 | 1.68753e+06 |          740 |       0 |          1 |           1 |       1 |      1.68753 |    440.289  |    0.674516 |           7387 |   0.100582  |      0.167038  |       983.337 |     0.0236295 |
-| 52103006 |  50310265 |           339 |        7902.25 | Traditional | Traditional residential | Non_Wealthy   |           92 | 2.65791e+06 |          339 |       0 |          0 |           0 |       0 |      2.65791 |    127.544  |    0.29698  |           8923 |   0.0379917 |      0.0244415 |       193.143 |    -0.0457989 |
 
 
 Below is a summarization by land type. Informal residences saw the highest growth while Farms saw the most decline. This follows general population trends in South Africa over the past several decades that describe a shift to sub-urbanization: people leaving farms and urban centers to settle in moderately dense, developing suburbs.  
 
 | EA_TYPE                    |   pop2011 |   pop2023 |   growth_rate_2011_2023 |
 |:---------------------------|----------:|----------:|------------------------:|
-| Collective living quarters |    341825 |    483081 |                2.92432  |
-| Commercial                 |    354128 |    181993 |               -5.39632  |
-| Farms                      |    464324 |     43147 |              -17.9627   |
-| Formal residential         |   8060534 |   7765564 |               -0.31019  |
-| Industrial                 |    206049 |     40748 |              -12.6335   |
-| Informal residential       |   1849126 |   2975624 |                4.04414  |
-| Parks and recreation       |     21996 |      3849 |              -13.5184   |
-| Small holdings             |    281723 |     41483 |              -14.7546   |
-| Township                   |   7677887 |  10019280 |                2.24284  |
-| Traditional residential    |   5162867 |   5760686 |                0.917219 |
-| Vacant                     |    274446 |    207868 |               -2.28879  |
+
 
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
