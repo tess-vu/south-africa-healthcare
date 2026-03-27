@@ -783,6 +783,7 @@ Building data is used to further justify that our estimates accurately place pop
 | 75%   |        981.23 |        809.00 |          0.02 |           0.05 |1.32 |  0.05 |
 | max   |     13,852.28 |     11,717.00 |          0.17 |           0.60 |1.33 |  0.60 |
 
+Sample of final output dataset
 
 |   WardID |   EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |         AREA |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   new_areakm |   sal_dense |   ward2011_sum |   share2011 |   gweight |   dasym_weight |   sal2023_est |   growth_rate |
 |---------:|----------:|--------------:|---------------:|:------------|:------------------------|:--------------|-------------:|-------------:|-------------:|--------:|-----------:|------------:|--------:|-------------:|------------:|---------------:|------------:|----------:|---------------:|--------------:|--------------:|
@@ -792,7 +793,7 @@ Building data is used to further justify that our estimates accurately place pop
 | 52103007 |  50310266 |        743.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       154.00 | 1,687,526.67 |          740 |       0 |          1 |           1 |       1 |         1.69 |      440.29 |       7,387.00 |        0.10 |      1.16 |           0.10 |        595.48 |         -0.02 |
 | 52103006 |  50310265 |        339.00 |       7,902.25 | Traditional | Traditional residential | Non_Wealthy   |        92.00 | 2,657,911.10 |          339 |       0 |          0 |           0 |       0 |         2.66 |      127.54 |       8,923.00 |        0.04 |      1.16 |           0.04 |        301.60 |         -0.01 |
 
-Below is a summarization by land type. Informal residences saw the highest growth while Farms saw the most decline. This follows general population trends in South Africa over the past several decades that describe a shift to sub-urbanization: people leaving farms and urban centers to settle in moderately dense, developing suburbs.  
+Below is a summarization of growth by land type that was used to create weights. The largest increase came from 'Informal Residential' and "Township' which supports contemporary literature that indicates trends of suburbanization from highly urbanized centers, nn other words: urban sprawl.     
 
 | EA_TYPE                    |      pop2011 |       pop2023 |   growth_rate_2011_2023 |
 |:---------------------------|-------------:|--------------:|------------------------:|
@@ -808,7 +809,32 @@ Below is a summarization by land type. Informal residences saw the highest growt
 | Traditional residential    | 5,162,867.00 |  6,017,688.45 |                    1.28 |
 | Vacant                     |   274,446.00 |    304,268.38 |                    0.86 |
 
+Locating the Highest and Lowest Growth Rate 
 
+|              | 17303               | 19117                      |
+|:-------------|:--------------------|:---------------------------|
+| WardID       | 74202011            |74804019                   |
+| EA_CODE      | 76110216            | 76610105                   |
+| sal2011_pop  | 171.0               |2101.0                     |
+| ward2023_pop | 20019.120349        | 1443.6598164               |
+| EA_GTYPE     | Farms               |Urban                      |
+| EA_TYPE      | Small holdings      |Collective living quarters |
+| econ_status  | Wealthy             |Non_Wealthy                |
+| houses2011   | 100.0               |23.0                       |
+| AREA         | 27501038.0353       |433532.56616               |
+| Black_Afri   | 161                 |2022                       |
+| White        | 7                   |30                         |
+| Coloured     | 3                   |36                         |
+| Indian_or    | 0                   |12                         |
+| Other        | 0                   | 1                          |
+| new_areakm   | 27.501038035300002  |0.43353256615999997        |
+| sal_dense    | 6.217947110960192   |4846.233395127698          |
+| ward2011_sum | 3178.0              | 9219.0                     |
+| share2011    | 0.05380742605412209 | 0.22789890443648986        |
+| gweight      | 1.0684105350737128  | 0.7812012322956611         |
+| dasym_weight | 0.05862529249780314 |0.20605386234760317        |
+| sal2023_est  | 1173.626786008848   |297.47168108525165         |
+| growth_rate  | 0.1741164114902718  |-0.15032736516378076       |
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
