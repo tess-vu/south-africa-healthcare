@@ -832,6 +832,16 @@ Locating the Highest and Lowest Growth Rate
 | sal2023_est  | 1173.626786008848   |297.47168108525165         |
 | growth_rate  | 0.1741164114902718  |-0.15032736516378076       |
 
+### Mapping the Estimates
+#### 2023 Count Estimates (SAL)
+![Map](visuals/pop2023estimate.png)
+
+#### 2023 Density Estimates (SAL)
+![Map](visuals/popdensity.png)
+
+#### Zooming into Johannesburg
+![Map](visuals/gauteng_joburg_sidebyside_rect.png)
+
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
 Address strings require geocoding to assign geographic coordinates. The
