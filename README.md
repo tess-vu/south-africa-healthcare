@@ -772,20 +772,41 @@ Building data is used to further justify that our estimates accurately place pop
 
 #### Estimation Summarizations
 
-|    |   sal2023_est |  sal2011_pop|     growth_rate |     dasym_weight |                         
-|-- |--------------:|--------------:|--------------:|---------------:|
-| count   |     38380     |38380| 37110    |     38380|
+|       |   sal2023_est ||   sal2011_pop ||   growth_rate ||   dasym_weight ||   gweight |share2011 
+|:------|--------------:||--------------:||--------------:||--------------:||----------:|----------:|
+| count |     38,380.00 ||     38,380.00 ||     37,110.00 ||      38,380.00 |38,380.00 |38,380.00 |
+| mean  |        717.13 ||        643.43 ||          0.00 ||           0.04 |  1.09 |   0.04 |
+| std   |        500.91 ||        354.56 ||          0.03 ||           0.04 | 0.20 | 0.04 |
+| min   |          0.00 ||          0.00 ||         -0.15 ||           0.00 | 0.76 | 0.00 |
+| 25%   |        367.56 ||        451.00 ||         -0.02 ||           0.01 | 0.88 | 0.02 |
+| 50%   |        659.75 ||        623.00 ||          0.01 ||           0.02 |  1.16 | 0.02 |
+| 75%   |        981.23 ||        809.00 ||          0.02 ||           0.05 |1.32 |  0.05 |
+| max   |     13,852.28 ||     11,717.00 ||          0.17 ||           0.60 |1.33 |  0.60 |
 
 
-
-
-|   WardID |   EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |        AREA |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   new_areakm |   sal_dense |   dens_norm |   ward2011_sum |   share2011 |   dasym_weight |   sal2023_est |   growth_rate |
-
+|   WardID |   EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |         AREA |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   new_areakm |   sal_dense |   ward2011_sum |   share2011 |   gweight |   dasym_weight |   sal2023_est |   growth_rate |
+|---------:|----------:|--------------:|---------------:|:------------|:------------------------|:--------------|-------------:|-------------:|-------------:|--------:|-----------:|------------:|--------:|-------------:|------------:|---------------:|------------:|----------:|---------------:|--------------:|--------------:|
+| 52103007 |  50310272 |        559.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       131.00 | 6,059,185.93 |          558 |       0 |          0 |           1 |       0 |         6.06 |       92.26 |       7,387.00 |        0.08 |      1.16 |           0.08 |        448.01 |         -0.02 |
+| 52103007 |  50310271 |        713.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       167.00 | 3,506,975.95 |          713 |       0 |          0 |           0 |       0 |         3.51 |      203.31 |       7,387.00 |        0.10 |      1.16 |           0.10 |        571.43 |         -0.02 |
+| 52103007 |  50310262 |        443.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       135.00 | 1,911,598.77 |          443 |       0 |          0 |           0 |       0 |         1.91 |      231.74 |       7,387.00 |        0.06 |      1.16 |           0.06 |        355.04 |         -0.02 |
+| 52103007 |  50310266 |        743.00 |       5,886.91 | Traditional | Traditional residential | Non_Wealthy   |       154.00 | 1,687,526.67 |          740 |       0 |          1 |           1 |       1 |         1.69 |      440.29 |       7,387.00 |        0.10 |      1.16 |           0.10 |        595.48 |         -0.02 |
+| 52103006 |  50310265 |        339.00 |       7,902.25 | Traditional | Traditional residential | Non_Wealthy   |        92.00 | 2,657,911.10 |          339 |       0 |          0 |           0 |       0 |         2.66 |      127.54 |       8,923.00 |        0.04 |      1.16 |           0.04 |        301.60 |         -0.01 |
 
 Below is a summarization by land type. Informal residences saw the highest growth while Farms saw the most decline. This follows general population trends in South Africa over the past several decades that describe a shift to sub-urbanization: people leaving farms and urban centers to settle in moderately dense, developing suburbs.  
 
-| EA_TYPE                    |   pop2011 |   pop2023 |   growth_rate_2011_2023 |
-|:---------------------------|----------:|----------:|------------------------:|
+| EA_TYPE                    |      pop2011 |       pop2023 |   growth_rate_2011_2023 |
+|:---------------------------|-------------:|--------------:|------------------------:|
+| Collective living quarters |   341,825.00 |    222,281.43 |                   -3.52 |
+| Commercial                 |   354,128.00 |    225,901.31 |                   -3.68 |
+| Farms                      |   464,324.00 |    435,958.56 |                   -0.52 |
+| Formal residential         | 8,060,534.00 |  7,113,043.29 |                   -1.04 |
+| Industrial                 |   206,049.00 |    178,067.74 |                   -1.21 |
+| Informal residential       | 1,849,126.00 |  2,623,939.20 |                    2.96 |
+| Parks and recreation       |    21,996.00 |     14,040.69 |                   -3.67 |
+| Small holdings             |   281,723.00 |    316,406.53 |                    0.97 |
+| Township                   | 7,677,887.00 | 10,071,733.78 |                    2.29 |
+| Traditional residential    | 5,162,867.00 |  6,017,688.45 |                    1.28 |
+| Vacant                     |   274,446.00 |    304,268.38 |                    0.86 |
 
 
 
