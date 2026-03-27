@@ -563,7 +563,7 @@ pharmaceutical services.
 
 This approach estimates small-area population counts for 2023 (SAL-level) using a combination of  
 2011 SAL population data, 2023 ward-level projections, and spatial weighting.  
-Using the Step Down Projection Method: It leverages population growth patterns and density to distribute ward-level counts to finer spatial units.
+Using the Step Down Projection Method: It leverages population growth patterns and land weights to distribute ward-level counts to finer spatial units.
 
 #### Data Preparation
 
@@ -663,9 +663,7 @@ Tabulate Intersection-->
 Input Zone: 2011 SAL geometries
 Input Class: 2023 Ward Geometries
 
-Output: EA_CODE (Sal ID), WardID, AREA (of SAL), Percenatage (Of SAL within Ward)
-
-This table identifies the ward(s) that each SAL encompasses, the percentage of the area of the ward that the SAL takes up, and the area.
+This table identifies the ward(s) that each SAL encompasses, the percentage of the area of the ward that the SAL takes up, and the area.  
 | EA_CODE        |  WardID        |AREA           | Percentage|     
 |----------------|----------------|----------------|----------|
 | 50310001      | 52103001         | 6967088.20     | 99.99|
@@ -704,9 +702,9 @@ sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(
 )
 ```
 
-As indicated by DAIR, South Africa census has a history up undercounting poulations.  
+As indicated by DAIR, South Africa census has a history up undercounting populations.  
 There were 2,084 SALs with a null population, so to avoid perpetuating further underestimation, housing counts ('houses2011') were used as a population proxy then multiplied by three (average house size). If the SAL had null/0 population and a house count of 0, their final population remained at 0.  
-'AREA' was divided by 100,000 to convert to squared Km 'new_areakm'. This was done to make the 'sal_dense' outputs easier to work with and not use extrememly small decimals.  'Sal_dense' was then normalized by grouping at ward-level and dividing by the max density within ward. This keeps density ratios congruent to local trends and patterns. If we normalize it at the province level, i.e dividing by the max density of the whole dataset, we lose variation and have extremely small outputs. 
+'AREA' was divided by 1,000,000 to convert squared meters to squared kilometers 'new_areakm'. This was done to make the 'sal_dense' outputs easier to work with and not use extrememly small decimals.  
 ```
 sal_wards.loc[sal_wards['sal2011_pop'] == 0, 'sal2011_pop'] = sal_wards['houses2011']*3
 sal_wards['new_areakm']=sal_wards['AREA']/1000000
@@ -717,7 +715,7 @@ sal_wards['sal_dense'] = (
 )
 
 ```
-
+#### Areal-Weighted Dasymetric Mapping + Land Type Weighting
 We estimate ward-level 2011 counts by grouping at ward-level and summing population counts. This is used to calculate the share of population the SAL contains within the ward 'share2011'.    
 ```
 ward2011_sum = sal_wards.groupby('WardID', as_index=False)['sal2011_pop'].sum()
@@ -735,8 +733,6 @@ Duplicates dropped to elimnate double counting
 ```
 sal_wards = sal_wards.drop_duplicates(subset='EA_CODE', keep='first')
 ```
-
-#### Areal-Weighted Dasymetric Mapping + Land Type Weighting
 
 Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: Land Type weighting multiplied by the dasymetric weight (share2011)
 ```
