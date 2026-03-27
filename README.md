@@ -834,13 +834,13 @@ Locating the Highest and Lowest Growth Rate
 
 ### Mapping the Estimates
 #### 2023 Count Estimates (SAL)
-![Map](visuals/pop2023estimate.png)
+<img src="visuals/pop2023estimate.png" width="800">
 
 #### 2023 Density Estimates (SAL)
-![Map](visuals/popdensity.png)
+<img src="visuals/popdensity.png" width="800">
 
 #### Zooming into Johannesburg
-![Map](visuals/gauteng_joburg_sidebyside_rect.png)
+<img src="visuals/gauteng_joburg_sidebyside_rect.png" width="800">
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
