@@ -1,4 +1,4 @@
 # data
-data/raw/
-data/interim/
-data/processed/
+data/
+notebooks/data/
+notebooks/cache/
