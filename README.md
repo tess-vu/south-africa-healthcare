@@ -619,23 +619,23 @@ Limitations: SALs where the ward share is evenly split between one or more wards
 As indicated by DAIR, South Africa census has a history up undercounting populations.  
 There were 2,084 SALs with a null population, so to avoid perpetuating further underestimation, housing counts ('houses2011') were used as a population proxy, which is then multiplied by three (average house size per SA census website). If the SAL had null/0 population and a house count of 0, their final population remained at 0.  
 
-**Density=  2011 population count/ SAL area (km sq.)**
+<p align="center">**Density=  2011 population count/ SAL area (km sq.)**</p>
 
 #### Areal-Weighted Dasymetric Mapping 
 We estimate ward-level 2011 counts by grouping at ward-level and summing SAL population counts. This is used to calculate the share of population the SAL contains within the ward 'share2011'. 
 
-**share2011=  SAL 2011 Population / Ward 2011 Total** 
+<p align="center">**share2011=  SAL 2011 Population / Ward 2011 Total**</p> 
  
 
 Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: 
-**Dasym weight= share2011 * density_log** 
+<p align="center">**Dasym weight= share2011 * density_log**</p> 
 
    
 The log of density was used to calculate the weight for several reasons. The spatial data was extremely skewed, with some SALs being the size of one apartment building and some being entire farming communities. The log was used to capture *relative* density to avoid extreme over estimation. This choice is justified below.    
 Before calculating the final estimate with the weight, it is grouped by ward then normalized by the sum of SAL weights. This is to capture SAL population *relative* to its own Ward (our coarsest unit for which we have real counts). It avoids unrealistic overestimating in urban pockets and undue undercounting in rural areas.    
 
 Finally, 2023 Ward population counts were used with the dasymetric weights to estimate 2023 SAL level population projections 
-**SAL 2023 estimate= daysm weight * Ward 2023 population** 
+<p align="center">**SAL 2023 estimate= daysm weight * Ward 2023 population**</p>  
 
 
 | Variable        | Value        |
@@ -663,7 +663,7 @@ This SAL is a pocket of land roughly the size of one small to mid-size apartment
 #### Estimation Justification and Reinforcement
 
 If the 2023 SAL estimates were properly dissolved into SAL zones, the difference between the 2023 Census ward counts and our SAL estimates should be extremely minimal; as demonstrated below. Our output for this equation is 0. 
-**2023 Ward Population Sum- 2023 SAL Estimate Sum** 
+<p align="center">**2023 Ward Population Sum- 2023 SAL Estimate Sum**</p>  
 
 Building data is used to further justify that our estimates accurately place population and measure true density.
 [text]
