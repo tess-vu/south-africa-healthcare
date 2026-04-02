@@ -570,79 +570,9 @@ Using the Step Down Projection Method: It leverages population growth patterns a
 2011 SAL census shapefile (ea_sal_kzn_gp.shp)  
 Already filtered to just Gauteng and KZN
 
-| Column     | Type     |   Count |   Unique |
-|:-----------|:---------|--------:|---------:|
-| OBJECTID   | int64    |   39177 |    38380 |
-| EA_CODE    | float64  |   39177 |    38380 |
-| SP_CODE    | float64  |   39177 |     6791 |
-| SP_NAME    | object   |   39177 |     6517 |
-| MP_CODE    | float64  |   39177 |     3381 |
-| MP_NAME    | object   |   39177 |     3166 |
-| MN_MDB_C   | object   |   39177 |       61 |
-| MN_CODE    | float64  |   39177 |       61 |
-| MN_NAME    | object   |   39177 |       61 |
-| MN_TYPE    | object   |   39177 |        2 |
-| DC_MDB_C   | object   |   39177 |       16 |
-| DC_MN_C    | float64  |   39177 |       16 |
-| DC_NAME    | object   |   39177 |       16 |
-| PR_MDB_C   | object   |   39177 |        2 |
-| PR_CODE    | float64  |   39177 |        2 |
-| PR_NAME    | object   |   39177 |        2 |
-| EA_GTYPE   | object   |   39177 |        3 |
-| ALBERS_ARE | float64  |   39177 |    38380 |
-| MD_CODE    | float64  |   39177 |        1 |
-| MD_NAME    | object   |       0 |        0 |
-| Shape_Leng | float64  |   39177 |    38380 |
-| Shape_Area | float64  |   39177 |    38224 |
-| SAL_CODE   | int64    |   39177 |    32615 |
-| EA_TYPE    | object   |   39177 |       20 |
-| 4_class    | object   |   37887 |        3 |
-| EA_area_km | float64  |   39177 |    27147 |
-| num_houses | float64  |   39177 |      755 |
-| 4_class_2  | object   |   37093 |        3 |
-| num_build  | float64  |   37093 |      732 |
-| EA_CODE_1  | float64  |   37093 |    37093 |
-| old_EA_TYP | object   |   37093 |       10 |
-| smallplace | object   |   37093 |    32041 |
-| url        | object   |   37093 |    32201 |
-| Black Afri | object   |   37093 |     1849 |
-| White      | object   |   37093 |      732 |
-| Coloured   | object   |   37093 |      594 |
-| Indian or  | object   |   37093 |      806 |
-| Other      | object   |   37093 |      132 |
-| population | object   |   37093 |     1922 |
-| 0_4        | object   |   37093 |      331 |
-| 5_9        | object   |   37093 |      276 |
-| 10_14      | object   |   37093 |      269 |
-| 15_19      | object   |   37093 |      308 |
-| 20_24      | object   |   37093 |      436 |
-| 25_29      | object   |   37093 |      448 |
-| 30_34      | object   |   37093 |      354 |
-| 35_39      | object   |   37093 |      273 |
-| 40_44      | object   |   37093 |      205 |
-| 45_49      | object   |   37093 |      176 |
-| 50_54      | object   |   37093 |      145 |
-| 55_59      | object   |   37093 |      120 |
-| 60_64      | object   |   37093 |      108 |
-| 65_69      | object   |   37093 |       96 |
-| 70_74      | object   |   37093 |      106 |
-| 75_79      | object   |   37093 |      103 |
-| 80_84      | object   |   37093 |       98 |
-| 85+        | object   |   37093 |       99 |
-| geometry   | geometry |   39177 |    38380 |
 
 2023 Ward shapefile and population (SA_Wards2020.dbf and census_ward_2023_with_pop.csv)  
-
-Joining with CSV where population data lives and filtering down to Gauteng and KZN. 
-```
-wards = wards.merge(
-    wards_with_pop[['WardID', 'Total',]],
-    on='WardID',
-    how='left'
-)
-wards = wards[wards['Province'].isin(['Gauteng', 'KwaZulu-Natal'])].copy()
-
-```
+These were joined on 'WardId'
 | Column     | Type           |   Count |   Unique |
 |:-----------|:---------------|--------:|---------:|
 | Province   | object         |    1430 |        2 |
@@ -660,10 +590,11 @@ wards = wards[wards['Province'].isin(['Gauteng', 'KwaZulu-Natal'])].copy()
 #### Spatial Joining and Tabulation
 Using ArcGis:  
 Tabulate Intersection-->
-Input Zone: 2011 SAL geometries
+Input Zone: 2011 SAL geometries 
+
 Input Class: 2023 Ward Geometries
 
-This table identifies the ward(s) that each SAL encompasses, the percentage of the area of the ward that the SAL takes up, and the area.  
+This table identifies the ward(s) that each SAL encompasses, the percentage of the area of the ward that the SAL takes up, and the area (m sq.).  
 | EA_CODE        |  WardID        |AREA           | Percentage|     
 |----------------|----------------|----------------|----------|
 | 50310001      | 52103001         | 6967088.20     | 99.99|
@@ -680,76 +611,59 @@ This is joined back to the SAL layer by EA_CODE --> Summarize Table --> AREA==Ma
 | 76410132      | 74805033          | 15722398      | province| district|
 | 53810017    |      52606020|     5720   |province |     district    | 
 
-Final output: Sal_with_wards.shp
 
-#### Density Calculations and Estimations 
+Limitations: SALs where the ward share is evenly split between one or more wards lose some spatial meaning when it gets paired with the highest share ward since it does not reflect where people actually livin inside the SAL/ward. This limitation is prerequisite to the building footprint analysis later in the report.    
 
-Moving over to Python
-Loading in the new shapefile, fixing column titles, filtering select columns for analysis, and cleaning column entries to remove extra characters.   
-```python
-sal_with_ward = gpd.read_file("sal_w_ward_new.shp")
-sal_with_ward=sal_with_ward.rename(columns={'census_war': 'WardID'})
-sal_wards= sal_with_ward[['WardID', 'EA_CODE', 'sal2011_po', "Total", 'EA_GTYPE', 'EA_TYPE', 'F4_class', 'num_houses', 'AREA',
-                         'Black_Afri', 'White', 'Coloured', 'Indian_or', 'Other',    ]]
-
-sal_wards=sal_wards.rename(columns={'sal2011_po': 'sal2011_pop',
-                            'Total':'ward2023_pop',
-                                'F4_class': 'econ_status',
-                                'num_houses': 'houses2011'})
-sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(r'_\*$', '', regex=True)
-sal_wards['EA_TYPE'] = sal_wards['EA_TYPE'].str.replace(
-    'Smallholdings', 'Small holdings'
-)
-```
+#### Density Calculations for weighting
 
 As indicated by DAIR, South Africa census has a history up undercounting populations.  
-There were 2,084 SALs with a null population, so to avoid perpetuating further underestimation, housing counts ('houses2011') were used as a population proxy then multiplied by three (average house size). If the SAL had null/0 population and a house count of 0, their final population remained at 0.  
-The log of density is used due to outliers and micro-geometries in the size of 0.0002 Kmsq, creating extreme distortions.    
-```
-sal_wards.loc[sal_wards['sal2011_pop'] == 0, 'sal2011_pop'] = sal_wards['houses2011']*3
+There were 2,084 SALs with a null population, so to avoid perpetuating further underestimation, housing counts ('houses2011') were used as a population proxy, which is then multiplied by three (average house size per SA census website). If the SAL had null/0 population and a house count of 0, their final population remained at 0.  
+
+**Density=  2011 population count/ SAL area (km sq.)**
+
+#### Areal-Weighted Dasymetric Mapping 
+We estimate ward-level 2011 counts by grouping at ward-level and summing SAL population counts. This is used to calculate the share of population the SAL contains within the ward 'share2011'. 
+
+**share2011=  SAL 2011 Population / Ward 2011 Total** 
+ 
+
+Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: 
+**Dasym weight= share2011 * density_log** 
+
+   
+The log of density was used to calculate the weight for several reasons. The spatial data was extremely skewed, with some SALs being the size of one apartment building and some being entire farming communities. The log was used to capture *relative* density to avoid extreme over estimation. This choice is justified below.    
+Before calculating the final estimate with the weight, it is grouped by ward then normalized by the sum of SAL weights. This is to capture SAL population *relative* to its own Ward (our coarsest unit for which we have real counts). It avoids unrealistic overestimating in urban pockets and undue undercounting in rural areas.    
+
+Finally, 2023 Ward population counts were used with the dasymetric weights to estimate 2023 SAL level population projections 
+**SAL 2023 estimate= daysm weight * Ward 2023 population** 
 
 
-sal_wards['area_km2'] = sal_with_ward.geometry.area / 1e6
+| Variable        | Value        |
+|-----------------|-------------|
+| WardID          | 59500022    |
+| EA_CODE         | 59913668    |
+| sal2011_pop     | 1306.0      |
+| PR_NAME           | KwaZulu-Natal |
+| ward2011_sum    | 32132.0     |
+| ward2023_pop    | 21793.913535|
+| sal2023_est     | 1225.25738  |
+| EA_GTYPE        | Urban       |
+| EA_TYPE         | Township    |
+| econ_status     | Non_Wealthy |
+| houses2011      | 10.0        |
+| area_km2        | 0.001971    |
+| sal_dense       | 662594.713465|
+| log_density     | 13.40392    |
+| share2011       | 0.040645    |
+| dasym_weight    | 0.05622     |
+| growth_rate     | -0.005304   |    
 
-sal_wards['sal_dense'] = (
-    sal_wards['sal2011_pop'].astype(float) /
-    sal_wards['area_km2'].astype(float)
-)
-sal_wards['log_density'] = np.log1p(sal_wards['sal_dense'])
+This SAL is a pocket of land roughly the size of one small to mid-size apartment building with 1306 people, giving it a density of 662,594 people/ kmsq.: Impossibly dense, yet here it is in black and white. If we used the absolute density in the dasymetric calculation, the 2023 estimate would be ~26,000 for one apartment building. But when using the log density, the estimate sits at a modest 1,225: reflecting realistic counts and the ward level decline in growth, as well.       
 
-```
-#### Areal-Weighted Dasymetric Mapping + Land Type Weighting
-We estimate ward-level 2011 counts by grouping at ward-level and summing population counts. This is used to calculate the share of population the SAL contains within the ward 'share2011'.    
-```
-ward2011_sum = sal_wards.groupby('WardID', as_index=False)['sal2011_pop'].sum()
-ward2011_sum = ward2011_sum.rename(columns={'sal2011_pop': 'ward2011_sum'})
-sal_wards = sal_wards.merge(
-    ward2011_sum,
-    on='WardID',
-    how='left'
-)
-
-
-sal_wards['share2011']=sal_wards['sal2011_pop']/sal_wards['ward2011_sum']
-```
-Duplicates dropped to elimnate double counting
-```
-sal_wards = sal_wards.drop_duplicates(subset='EA_CODE', keep='first')
-```
-
-Dasymetric mapping weights were implemented to produce SAL unit estimations for 2023: Density  multiplied by the population share (share2011)
-
-Multiplying the dasymetric weight by the official 2023 ward counts
-```
-sal_wards['dasym_weight']= sal_wards['share2011']*sal_wards['log_density']
-```
 #### Estimation Justification and Reinforcement
 
-If the 2023 SAL estimates were properly dissolved into SAL zones, the difference between the 2023 Census ward counts and our SAL estimates should be extremely minimal; as demonstrated below. 
-```
-wards['ward2023_pop'].sum()-sal_wards['sal2023_est'].sum()
-```
-Output: 0
+If the 2023 SAL estimates were properly dissolved into SAL zones, the difference between the 2023 Census ward counts and our SAL estimates should be extremely minimal; as demonstrated below. Our output for this equation is 0. 
+**2023 Ward Population Sum- 2023 SAL Estimate Sum** 
 
 Building data is used to further justify that our estimates accurately place population and measure true density.
 [text]
@@ -757,68 +671,17 @@ Building data is used to further justify that our estimates accurately place pop
 
 #### Estimation Summarizations
 
-|       |   sal2023_est |   sal2011_pop |   growth_rate |   dasym_weight |   share2011 |   log_density |
-|:------|--------------:|--------------:|--------------:|---------------:|------------:|--------------:|
-| count |    38,380.000 |    38,380.000 |    37,110.000 |     38,380.000 |  38,380.000 |    38,380.000 |
-| mean  |       717.127 |       643.432 |        -0.004 |          0.037 |       0.037 |         7.408 |
-| std   |       513.686 |       354.558 |         0.044 |          0.037 |       0.035 |         2.485 |
-| min   |         0.000 |         0.000 |        -0.378 |          0.000 |       0.000 |         0.000 |
-| 25%   |       351.649 |       451.000 |        -0.023 |          0.015 |       0.015 |         6.306 |
-| 50%   |       664.610 |       623.000 |         0.005 |          0.024 |       0.025 |         8.107 |
-| 75%   |       992.974 |       809.000 |         0.023 |          0.048 |       0.050 |         9.141 |
-| max   |    14,387.065 |    11,717.000 |         0.178 |          0.592 |       0.600 |        13.404 |
+|       |   sal2023_est |   sal2011_pop |   ward2023_pop |   ward2011_sum |   growth_rate |   dasym_weight |   share2011 |   log_density |   sal_dense |
+|:------|--------------:|--------------:|---------------:|---------------:|--------------:|---------------:|------------:|--------------:|------------:|
+| count |    38,380.000 |    38,380.000 |     38,380.000 |     38,380.000 |    37,110.000 |     38,380.000 |  38,380.000 |    38,380.000 |  38,380.000 |
+| mean  |       717.127 |       643.432 |     27,492.240 |     25,269.922 |        -0.004 |          0.037 |       0.037 |         7.408 |   7,094.106 |
+| std   |       513.686 |       354.558 |     19,153.563 |     13,621.711 |         0.044 |          0.037 |       0.035 |         2.485 |  12,762.574 |
+| min   |         0.000 |         0.000 |      1,443.660 |      2,349.000 |        -0.378 |          0.000 |       0.000 |         0.000 |       0.000 |
+| 25%   |       351.649 |       451.000 |     11,208.619 |     10,734.000 |        -0.023 |          0.015 |       0.015 |         6.306 |     547.079 |
+| 50%   |       664.610 |       623.000 |     23,592.523 |     27,252.000 |         0.005 |          0.024 |       0.025 |         8.107 |   3,315.586 |
+| 75%   |       992.974 |       809.000 |     37,830.579 |     35,500.000 |         0.023 |          0.048 |       0.050 |         9.141 |   9,331.015 |
+| max   |    14,387.065 |    11,717.000 |    126,727.517 |     69,618.000 |         0.178 |          0.592 |       0.600 |        13.404 | 662,594.713 |
 
-Head of final output dataset
-
-|    |   WardID |   EA_CODE |   sal2011_pop |   ward2023_pop | EA_GTYPE    | EA_TYPE                 | econ_status   |   houses2011 |   Black_Afri |   White |   Coloured |   Indian_or |   Other |   area_km2 |   sal_dense |   log_density |   ward2011_sum |   share2011 |   dasym_weight |   sal2023_est |   growth_rate |
-|---:|---------:|----------:|--------------:|---------------:|:------------|:------------------------|:--------------|-------------:|-------------:|--------:|-----------:|------------:|--------:|-----------:|------------:|--------------:|---------------:|------------:|---------------:|--------------:|--------------:|
-|  0 | 52103007 |  50310272 |       559.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      131.000 |          558 |       0 |          0 |           1 |       0 |      6.073 |      92.054 |         4.533 |      7,387.000 |       0.076 |          0.067 |       391.863 |        -0.029 |
-|  1 | 52103007 |  50310271 |       713.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      167.000 |          713 |       0 |          0 |           0 |       0 |      3.901 |     182.782 |         5.214 |      7,387.000 |       0.097 |          0.098 |       574.856 |        -0.018 |
-|  2 | 52103007 |  50310262 |       443.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      135.000 |          443 |       0 |          0 |           0 |       0 |      1.927 |     229.936 |         5.442 |      7,387.000 |       0.060 |          0.063 |       372.815 |        -0.014 |
-|  3 | 52103007 |  50310266 |       743.000 |      5,886.913 | Traditional | Traditional residential | Non_Wealthy   |      154.000 |          740 |       0 |          1 |           1 |       1 |      1.707 |     435.351 |         6.078 |      7,387.000 |       0.101 |          0.119 |       698.395 |        -0.005 |
-|  4 | 52103006 |  50310265 |       339.000 |      7,902.254 | Traditional | Traditional residential | Non_Wealthy   |       92.000 |          339 |       0 |          0 |           0 |       0 |      4.054 |      83.611 |         4.438 |      8,923.000 |       0.038 |          0.034 |       272.536 |        -0.018 |
-
-Below is a summarization of growth by land type that was used to create weights. The largest increase came from 'Informal Residential' and "Township' which supports contemporary literature that indicates trends of suburbanization from highly urbanized centers, nn other words: urban sprawl.     
-
-|    | EA_TYPE                    |       pop2011 |       pop2023 |   growth_rate_2011_2023 |
-|---:|:---------------------------|--------------:|--------------:|------------------------:|
-|  0 | Collective living quarters |   341,825.000 |   286,717.062 |                  -1.454 |
-|  1 | Commercial                 |   354,128.000 |   251,390.430 |                  -2.815 |
-|  2 | Farms                      |   464,324.000 |   239,162.748 |                  -5.379 |
-|  3 | Formal residential         | 8,060,534.000 | 7,759,042.311 |                  -0.317 |
-|  4 | Industrial                 |   206,049.000 |   142,473.030 |                  -3.028 |
-|  5 | Informal residential       | 1,849,126.000 | 2,486,815.695 |                   2.500 |
-|  6 | Parks and recreation       |    21,996.000 |    11,008.926 |                  -5.605 |
-|  7 | Small holdings             |   281,723.000 |   221,943.536 |                  -1.968 |
-|  8 | Township                   | 7,677,887.000 | 9,898,540.063 |                   2.140 |
-|  9 | Traditional residential    | 5,162,867.000 | 5,965,887.066 |                   1.212 |
-| 10 | Vacant                     |   274,446.000 |   260,348.495 |                  -0.438 |
-
-Locating the Highest and Lowest Growth Rate   
-
-|               | Max Growth        |             Min Growth|
-|:-------------|:--------------------|:----------------------|
-| WardID       | 74202011            |52805012               |
-| EA_CODE      | 76110153            |58810097               |
-| sal2011_pop  | 704.0               | 1.0                  |
-| ward2023_pop | 20019.120349        |10169.616012           |
-| EA_GTYPE     | Urban               |Traditional            |
-| EA_TYPE      | Formal residential  | Vacant                 |
-| econ_status  | Wealthy             | Non_Residential        |
-| houses2011   | 339.0               |15.0                   |
-| Black_Afri   | 466                 |0                 |
-| White        | 123                 |0                 |
-| Coloured     | 22                  |0                 |
-| Indian_or    | 80                  |0                     |
-| Other        | 13                  |0                         |
-| area_km2     | 3.4439985978511474  |77.77991507307826         |
-| sal_dense    | 204.41355592863906  |0.012856789558852671   |
-| log_density  | 5.325025293021861   |0.012774842675117377   |
-| ward2011_sum | 3178.0              |9292.0                 |
-| share2011    | 0.22152297042164884 |0.00010761945759793371 |
-| dasym_weight | 0.2516713352276131  |3.2707980640609965e-07 |
-| sal2023_est  | 5038.23874831511    |0.0033262760364293313  |
-| growth_rate  | 0.17821760321211277 |-0.37842072737241883   |
 
 
 ### Mapping the Estimates
@@ -829,6 +692,8 @@ Locating the Highest and Lowest Growth Rate
 
 #### Zooming into Johannesburg
 [![Map](visuals/gauteng_joburg_sidebyside_rect.png)](visuals/gauteng_joburg_sidebyside_rect.png)
+#### Growth Rate
+[![Map](visuals/growth_rate_map.png)](visuals/growth_rate_map.png)
 
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
@@ -1081,6 +946,32 @@ recommended for priority intervention areas.
 -   *Urban/rural population distributions*
 -   *Population density mapping*
 
+Locating the Highest and Lowest Growth Rate   
+
+|               | Max Growth        |             Min Growth|
+|:-------------|:--------------------|:----------------------|
+| WardID       | 74202011            |52805012               |
+| EA_CODE      | 76110153            |58810097               |
+|PR_NAME  |         Gauteng     |       KwaZulu-Natal       |    
+| sal2011_pop  | 704.0               | 1.0                  |
+| ward2023_pop | 20019.120349        |10169.616012           |
+| EA_GTYPE     | Urban               |Traditional            |
+| EA_TYPE      | Formal residential  | Vacant                 |
+| econ_status  | Wealthy             | Non_Residential        |
+| houses2011   | 339.0               |15.0                   |
+| Black_Afri   | 466                 |0                 |
+| White        | 123                 |0                 |
+| Coloured     | 22                  |0                 |
+| Indian_or    | 80                  |0                     |
+| Other        | 13                  |0                         |
+| area_km2     | 3.4439985978511474  |77.77991507307826         |
+| sal_dense    | 204.41355592863906  |0.012856789558852671   |
+| log_density  | 5.325025293021861   |0.012774842675117377   |
+| ward2011_sum | 3178.0              |9292.0                 |
+| share2011    | 0.22152297042164884 |0.00010761945759793371 |
+| dasym_weight | 0.2516713352276131  |3.2707980640609965e-07 |
+| sal2023_est  | 5038.23874831511    |0.0033262760364293313  |
+| growth_rate  | 0.17821760321211277 |-0.37842072737241883   |
 ### Accessibility Patterns
 
 *\[Section to be populated with analysis results including:\]*
