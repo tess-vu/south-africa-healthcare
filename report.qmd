@@ -1091,7 +1091,30 @@ populated\]*
 
 ### JavaScript Application \[ALEX\]
 
-*\[To be populated with web application code\]*
+#### App Entry & Routing
+- `main.jsx` — entry point
+- `App.jsx` — router config (Story vs Map pages)
+- `index.css` — global design tokens
+
+#### Narrative Components (StoryPage)
+- `Hero.jsx` — landing section
+- `ContextBand.jsx` — NHI Act 2024 context
+- `N1.jsx` — positionality + DAIR partnership
+- `N2.jsx` — spatial orientation + province map
+- `N3.jsx` — apartheid geography
+- `N4.jsx` — pharmacy data intro
+- `N5.jsx` — access + disparity findings
+- `CTABand.jsx` — CTA to map page
+- `Footer.jsx` — team + DAIR attribution
+
+#### Map Dashboard (MapPage)
+- `MapPage.jsx` — interactive Mapbox dashboard
+- `MapSidebar.jsx` — sidebar layer toggles + spatial metrics
+- `NavBar.jsx` — sticky nav, Map/Story toggle
+
+#### Data
+- `public/data/gauteng.geojson` — Gauteng province boundary
+- `public/data/KZN.geojson` — KwaZulu-Natal province boundary
 
 ------------------------------------------------------------------------
 
