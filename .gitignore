@@ -2,3 +2,6 @@
 data/
 notebooks/data/
 notebooks/cache/
+allaccess.csv
+*.csv
+allaccess.csv
