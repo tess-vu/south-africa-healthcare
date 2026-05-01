@@ -668,32 +668,6 @@ Building data is used to further justify that our estimates accurately place pop
 [text]
 
 
-#### Estimation Summarizations
-
-|       |   sal2023_est |   sal2011_pop |   ward2023_pop |   ward2011_sum |   growth_rate |   dasym_weight |   share2011 |   log_density |   sal_dense |
-|:------|--------------:|--------------:|---------------:|---------------:|--------------:|---------------:|------------:|--------------:|------------:|
-| count |    38,380.000 |    38,380.000 |     38,380.000 |     38,380.000 |    37,110.000 |     38,380.000 |  38,380.000 |    38,380.000 |  38,380.000 |
-| mean  |       717.127 |       643.432 |     27,492.240 |     25,269.922 |        -0.004 |          0.037 |       0.037 |         7.408 |   7,094.106 |
-| std   |       513.686 |       354.558 |     19,153.563 |     13,621.711 |         0.044 |          0.037 |       0.035 |         2.485 |  12,762.574 |
-| min   |         0.000 |         0.000 |      1,443.660 |      2,349.000 |        -0.378 |          0.000 |       0.000 |         0.000 |       0.000 |
-| 25%   |       351.649 |       451.000 |     11,208.619 |     10,734.000 |        -0.023 |          0.015 |       0.015 |         6.306 |     547.079 |
-| 50%   |       664.610 |       623.000 |     23,592.523 |     27,252.000 |         0.005 |          0.024 |       0.025 |         8.107 |   3,315.586 |
-| 75%   |       992.974 |       809.000 |     37,830.579 |     35,500.000 |         0.023 |          0.048 |       0.050 |         9.141 |   9,331.015 |
-| max   |    14,387.065 |    11,717.000 |    126,727.517 |     69,618.000 |         0.178 |          0.592 |       0.600 |        13.404 | 662,594.713 |
-
-
-
-### Mapping the Estimates
-#### 2023 Count Estimates (SAL)
-[![Map](visuals/pop2023estimate.png)](visuals/pop2023estimate.png)
-#### 2023 Density Estimates (SAL)
-[![Map](visuals/popdensity.png)](visuals/popdensity.png)
-
-#### Zooming into Johannesburg
-[![Map](visuals/gauteng_joburg_sidebyside_rect.png)](visuals/gauteng_joburg_sidebyside_rect.png)
-#### Growth Rate
-[![Map](visuals/growth_rate_map.png)](visuals/growth_rate_map.png)
-
 ### Geocoding and Coordinate Assignment \[JOEY\]
 
 Address strings require geocoding to assign geographic coordinates. The
@@ -935,45 +909,57 @@ recommended for priority intervention areas.
 -   *`PRACTICE_NUM` completeness rates by source*
 -   *Geocoding success rates and confidence distributions*
 
-### Population Characteristics
+### Population Characteristics  
 
-*\[Section to be populated with analysis results including:\]*
+#### Projection Summarization
 
--   *Population distributions across administrative units*
--   *Demographic breakdowns (age, race) by municipality*
--   *Comparison of population estimation approaches*
--   *Urban/rural population distributions*
--   *Population density mapping*
+|       |   sal2023_est |   sal2011_pop |   ward2023_pop |   ward2011_sum |   growth_rate |   dasym_weight |   share2011 |   log_density |   sal_dense |
+|:------|--------------:|--------------:|---------------:|---------------:|--------------:|---------------:|------------:|--------------:|------------:|
+| count |    34,067.000 |    34,067.000 |     34,067.000 |     34,067.000 |    32,958.000 |     34,067.000 |  34,067.000 |    34,067.000 |  34,067.000 |
+| mean  |       717.877 |       644.171 |     27,495.077 |     25,279.856 |        -0.004 |          0.037 |       0.037 |         7.417 |   7,097.836 |
+| std   |       514.216 |       355.058 |     19,148.133 |     13,621.172 |         0.043 |          0.037 |       0.036 |         2.472 |  12,826.214 |
+| min   |         0.000 |         0.000 |      1,443.660 |      2,349.000 |        -0.378 |          0.000 |       0.000 |         0.000 |       0.000 |
+| 25%   |       353.548 |       453.000 |     11,234.524 |     10,743.000 |        -0.023 |          0.015 |       0.015 |         6.317 |     552.788 |
+| 50%   |       664.747 |       623.000 |     23,592.523 |     27,252.000 |         0.005 |          0.024 |       0.025 |         8.110 |   3,326.769 |
+| 75%   |       992.194 |       808.000 |     37,830.579 |     35,500.000 |         0.023 |          0.049 |       0.050 |         9.142 |   9,336.936 |
+| max   |    14,387.065 |    11,717.000 |    126,727.517 |     69,618.000 |         0.178 |          0.571 |       0.600 |        13.404 | 662,594.713 |
 
-Locating the Highest and Lowest Growth Rate   
+By Province
+| PR_NAME       |   sal2011_total |      sal2023_total |      avg_growth_rate |    absolute_growth |   pct_growth |
+|:--------------|----------------:|-------------------:|---------------------:|-------------------:|-------------:|
+| Gauteng       |      11988615.0 | 13415256           | -0.004               | 1426641            |     0.119    |
+| KwaZulu-Natal |       9956355.0 | 11040644           | -0.0035              | 1084289            |     0.108    |
 
-|               | Max Growth        |             Min Growth|
-|:-------------|:--------------------|:----------------------|
-| WardID       | 74202011            |52805012               |
-| EA_CODE      | 76110153            |58810097               |
-|PR_NAME  |         Gauteng     |       KwaZulu-Natal       |    
-| sal2011_pop  | 704.0               | 1.0                  |
-| ward2023_pop | 20019.120349        |10169.616012           |
-| EA_GTYPE     | Urban               |Traditional            |
-| EA_TYPE      | Formal residential  | Vacant                 |
-| econ_status  | Wealthy             | Non_Residential        |
-| houses2011   | 339.0               |15.0                   |
-| Black_Afri   | 466                 |0                 |
-| White        | 123                 |0                 |
-| Coloured     | 22                  |0                 |
-| Indian_or    | 80                  |0                     |
-| Other        | 13                  |0                         |
-| area_km2     | 3.4439985978511474  |77.77991507307826         |
-| sal_dense    | 204.41355592863906  |0.012856789558852671   |
-| log_density  | 5.325025293021861   |0.012774842675117377   |
-| ward2011_sum | 3178.0              |9292.0                 |
-| share2011    | 0.22152297042164884 |0.00010761945759793371 |
-| dasym_weight | 0.2516713352276131  |3.2707980640609965e-07 |
-| sal2023_est  | 5038.23874831511    |0.0033262760364293313  |
-| growth_rate  | 0.17821760321211277 |-0.37842072737241883   |
+
+By Land Type
+| EA_TYPE_x                  |   sal2011_total |        sal2023_total |       avg_growth_rate |      absolute_growth |   pct_growth |
+|:---------------------------|----------------:|---------------------:|----------------------:|---------------------:|-------------:|
+| Collective living quarters |        317451.0 |  264649              | -0.029                |  -52801         |   -0.16633         |
+| Commercial                 |        313069.0 |  217868             | -0.04                  |  -95200        |   -0.304088         |
+| Farms                      |        410306.0 |  211807             | -0.074                 | -198498       |   -0.483781          |
+| Formal residential         |       7157848.0 | 6888003             | -0.013                 | -269844        |   -0.0376991        |
+| Industrial                 |        184443.0 |  127273             | -0.055                 |  -57169        |   -0.309958          |
+| Informal residential       |       1647179.0 | 2216765             |  0.025                 |  569586        |    0.345795          |
+| Parks and recreation       |         19384.0 |    9851             | -0.11                  |   -9532            |   -0.491777       |
+| Small holdings             |        251320.0 |  200387             | -0.032                 |  -50932        |   -0.202658           |
+| Township                   |       6795397.0 | 8765235             |  0.018                 | 1969838           |    0.289878        |
+| Traditional residential    |       4605767.0 | 5321885             |  0.007                 |  716118            0.155483            |
+| Vacant                     |        242806.0 |  232172             | -0.077                 |  -10633        |   -0.0437929          |
+
+### Mapping the Estimates
+#### 2023 Count Estimates (SAL)
+[![Map](visuals/pop2023estimate.png)](visuals/pop2023estimate.png)
+#### 2023 Density Estimates (SAL)
+[![Map](visuals/popdensity.png)](visuals/popdensity.png)
+
+#### Zooming into Johannesburg
+[![Map](visuals/gauteng_joburg_sidebyside_rect.png)](visuals/gauteng_joburg_sidebyside_rect.png)
+#### Growth Rate
+[![Map](visuals/growth_rate_map.png)](visuals/growth_rate_map.png)
 ### Accessibility Patterns
 
 *\[Section to be populated with analysis results including:\]*
+
 
 -   *Distance to nearest pharmacy distributions*
 -   *Accessibility metric maps*
