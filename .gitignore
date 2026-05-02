@@ -1,7 +1,9 @@
-# data
+# Data
 data/
 notebooks/data/
 notebooks/cache/
-allaccess.csv
+notebooks/.ipynb_checkpoints/
 *.csv
-allaccess.csv
+
+# Local Files
+tess_local/
