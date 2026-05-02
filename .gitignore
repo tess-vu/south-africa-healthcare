@@ -3,6 +3,7 @@ data/
 notebooks/data/
 notebooks/cache/
 notebooks/.ipynb_checkpoints/
+.ipynb_checkpoints
 *.csv
 
 # Local Files
