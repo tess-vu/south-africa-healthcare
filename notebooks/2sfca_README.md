@@ -1,5 +1,7 @@
 # 2SFCA Accessibility Score: What Changed and Why
 
+**Tess Vu**
+
 ## What the Code Does
 
 The notebook calculates a pharmacy accessibility score for every Small Area Layer (SAL) in Gauteng and KwaZulu-Natal. The score helps us answer *how well-served is this SAL by nearby pharmacies, given how many other people are also competing for those same pharmacies?*
